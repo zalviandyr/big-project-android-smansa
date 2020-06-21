@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.bottomnavigation.BottomNavigationView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bnv_footer_button"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@drawable/bg_white_round_top"
+    app:itemIconTint="@color/nav_color"
+    app:itemTextColor="@color/nav_color"
+    app:labelVisibilityMode="labeled"
+    app:menu="@menu/button_bar">
+
+</com.google.android.material.bottomnavigation.BottomNavigationView>

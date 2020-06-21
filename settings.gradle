@@ -1,0 +1,2 @@
+rootProject.name='SMAN1Bungo'
+include ':app'

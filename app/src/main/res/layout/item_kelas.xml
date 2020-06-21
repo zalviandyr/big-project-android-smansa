@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="1dp"
+    app:cardMaxElevation="1dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="5dp"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/tv_id_kelas_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:text="K001" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="2">
+
+            <TableRow>
+
+                <TextView
+                    android:text="@string/nama"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:text="@string/double_dot"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tv_nama_kelas_item"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="20sp"
+                    tools:text="IX MIPA 3" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="@string/wali_kelas"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:text="@string/double_dot"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tv_wali_kelas_item"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="20sp"
+                    tools:text="Zukron Alviandy R" />
+            </TableRow>
+        </TableLayout>
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|end">
+
+            <Button
+                android:id="@+id/btn_edit_kelas_item"
+                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:icon="@drawable/ic_mode_edit_black_24dp" />
+
+            <Button
+                android:id="@+id/btn_delete_kelas_item"
+                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:icon="@drawable/ic_delete_black_24dp" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
