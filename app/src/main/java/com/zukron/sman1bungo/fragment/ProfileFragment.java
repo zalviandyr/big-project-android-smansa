@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.zukron.sman1bungo.LoginActivity;
 import com.zukron.sman1bungo.R;
+import com.zukron.sman1bungo.activities.about.AboutSchoolActivity;
 import com.zukron.sman1bungo.activities.edit.EditBornDateActivity;
 import com.zukron.sman1bungo.activities.edit.EditEmailAndNoHpActivity;
 import com.zukron.sman1bungo.activities.edit.EditProfileGuruSiswaActivity;
@@ -132,15 +133,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
                 }
                 break;
             case R.id.btn_about_school_profile:
-                Toast.makeText(getContext(), "School", Toast.LENGTH_SHORT).show();
+                Intent intentAboutSchool = new Intent(getContext(), AboutSchoolActivity.class);
+                startActivity(intentAboutSchool);
                 break;
             case R.id.btn_about_app_profile:
                 Toast.makeText(getContext(), "App", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_log_out_profile:
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                Intent intentLogOut = new Intent(getContext(), LoginActivity.class);
+                intentLogOut.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intentLogOut);
         }
     }
 
