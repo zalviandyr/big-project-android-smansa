@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -37,6 +38,7 @@ public class EditProfileGuruSiswaActivity extends AppCompatActivity implements V
     private Guru guru;
     private Siswa siswa;
     private User userSession = Session.getSession();
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,10 @@ public class EditProfileGuruSiswaActivity extends AppCompatActivity implements V
         rbPerempuanGuruSiswaEditProfile = findViewById(R.id.rb_perempuan_guru_siswa_edit_profile);
         btnOkGuruSiswaEditProfile = findViewById(R.id.btn_ok_guru_siswa_edit_profile);
         btnOkGuruSiswaEditProfile.setOnClickListener(this);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Proses ambil data");
+        progressDialog.show();
 
         retrieveData();
     }
@@ -85,24 +91,34 @@ public class EditProfileGuruSiswaActivity extends AppCompatActivity implements V
     }
 
     private void sendData() {
-        if (userSession.getLevel().equals("Guru")) {
-            String nip = inputIdGuruSiswaEditProfile.getText().toString().trim();
-            String firstName = inputFirstNameGuruSiswaEditProfile.getText().toString().trim();
-            String lastName = inputLastNameGuruSiswaEditProfile.getText().toString().trim();
-            String jekel = "";
-            if (rbLakiLakiGuruSiswaEditProfile.isChecked())
-                jekel = rbLakiLakiGuruSiswaEditProfile.getText().toString().trim();
-            if (rbPerempuanGuruSiswaEditProfile.isChecked())
-                jekel = rbPerempuanGuruSiswaEditProfile.getText().toString().trim();
+        String id = inputIdGuruSiswaEditProfile.getText().toString().trim();
+        String firstName = inputFirstNameGuruSiswaEditProfile.getText().toString().trim();
+        String lastName = inputLastNameGuruSiswaEditProfile.getText().toString().trim();
+        String jekel = "";
+        if (rbLakiLakiGuruSiswaEditProfile.isChecked())
+            jekel = rbLakiLakiGuruSiswaEditProfile.getText().toString().trim();
+        if (rbPerempuanGuruSiswaEditProfile.isChecked())
+            jekel = rbPerempuanGuruSiswaEditProfile.getText().toString().trim();
 
+        if (userSession.getLevel().equals("Guru")) {
             Guru guruData = new Guru(
-                    nip, firstName, lastName, guru.getEmail(),
+                    id, firstName, lastName, guru.getEmail(),
                     guru.getNoHp(), jekel, guru.getTanggalLahir(),
                     guru.getProvinsiLahir(), guru.getKotaLahir(), guru.getGolongan(),
                     guru.getIdPelajaran(), guru.getUsername(), guru.getIdGaji()
             );
 
             guruDao.putFull(guruData);
+        }
+
+        if (userSession.getLevel().equals("Siswa")) {
+            Siswa siswaData = new Siswa(
+                    id, firstName, lastName, jekel, siswa.getEmail(),
+                    siswa.getNoHp(), siswa.getTanggalLahir(), siswa.getKotaLahir(),
+                    siswa.getProvinsiLahir(), siswa.getIdKelas(), siswa.getUsername()
+            );
+
+            siswaDao.putFull(siswaData);
         }
     }
 
@@ -128,9 +144,16 @@ public class EditProfileGuruSiswaActivity extends AppCompatActivity implements V
         return valid;
     }
 
+    private void moveToDashboardActivity(){
+        Intent intent = new Intent(this, DashboardActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
     @Override
     public void guruResponse(Guru guru) {
         if (userSession.getLevel().equals("Guru")) {
+            progressDialog.dismiss();
             this.guru = guru;
 
             String nip = guru.getNip();
@@ -149,17 +172,6 @@ public class EditProfileGuruSiswaActivity extends AppCompatActivity implements V
         }
     }
 
-    private void moveToDashboardActivity(){
-        Intent intent = new Intent(this, DashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-    }
-
-    private void reloadActivity() {
-        finish();
-        startActivity(getIntent());
-    }
-
     @Override
     public void guruListResponse(ArrayList<Guru> guruList) {
         // no need
@@ -168,6 +180,7 @@ public class EditProfileGuruSiswaActivity extends AppCompatActivity implements V
     @Override
     public void siswaResponse(Siswa siswa) {
         if (userSession.getLevel().equals("Siswa")) {
+            progressDialog.dismiss();
             this.siswa = siswa;
 
             String nisn = siswa.getNisn();
@@ -199,6 +212,7 @@ public class EditProfileGuruSiswaActivity extends AppCompatActivity implements V
 
     @Override
     public void errorResponse(VolleyError error) {
+        progressDialog.dismiss();
         error.printStackTrace();
     }
 }

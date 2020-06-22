@@ -86,4 +86,6 @@
     <string name="about_app">About App</string>
     <string name="edit_email_and_no_hp">Edit Email and No Hp</string>
     <string name="edit_born_date">Edit Born Date</string>
+    <string name="kota_lahir">Kota Lahir</string>
+    <string name="provinsi_lahir">Provinsi Lahir</string>
 </resources>

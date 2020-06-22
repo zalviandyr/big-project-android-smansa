@@ -269,7 +269,7 @@ public class SiswaDao {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("nisn", siswa.getNisn());
+
                 params.put("first_name", siswa.getFirstName());
                 params.put("last_name", siswa.getLastName());
                 params.put("jekel", siswa.getJekel());

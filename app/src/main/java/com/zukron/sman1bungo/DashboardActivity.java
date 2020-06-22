@@ -30,6 +30,7 @@ public class DashboardActivity extends AppCompatActivity implements BottomNaviga
     // TODO validate input
     // TODO make a class to make a simple request to server
     // TODO buat custom id diserver, jadi di android tidak ada custom id
+    // TODO add check connection internet
 
     // TODO add this one to send twice request to server when connection is low
     // jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(

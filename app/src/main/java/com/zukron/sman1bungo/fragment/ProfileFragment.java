@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.zukron.sman1bungo.LoginActivity;
 import com.zukron.sman1bungo.R;
+import com.zukron.sman1bungo.activities.edit.EditBornDateActivity;
 import com.zukron.sman1bungo.activities.edit.EditProfileGuruSiswaActivity;
 import com.zukron.sman1bungo.model.Guru;
 import com.zukron.sman1bungo.model.Pegawai;
@@ -66,7 +67,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
         FrameLayout flButtonMenuProfile = view.findViewById(R.id.fl_button_menu_profile);
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         View viewButton = null;
-        
+
         // separate button menu
         if (userSession.getLevel().equals("Guru") || userSession.getLevel().equals("Siswa")) {
             viewButton = layoutInflater.inflate(R.layout.button_menu_profile1, null);
@@ -114,12 +115,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
             case R.id.btn_edit_profile:
                 if (userSession.getLevel().equals("Guru") || userSession.getLevel().equals("Siswa")) {
                     Intent intent = new Intent(getContext(), EditProfileGuruSiswaActivity.class);
-//                    getActivity().onBackPressed();
                     startActivity(intent);
                 }
                 break;
             case R.id.btn_edit_born_date_profile:
-                Toast.makeText(getContext(), "Born Date", Toast.LENGTH_SHORT).show();
+                if (userSession.getLevel().equals("Guru") || userSession.getLevel().equals("Siswa")) {
+                    Intent intent = new Intent(getContext(), EditBornDateActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.btn_edit_email_and_no_hp_profile:
                 Toast.makeText(getContext(), "Email No HP", Toast.LENGTH_SHORT).show();
