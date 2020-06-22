@@ -83,11 +83,16 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="log_out">Log Out</string>
     <string name="about_school">About School</string>
-    <string name="about_app">About App</string>
     <string name="edit_email_and_no_hp">Edit Email and No Hp</string>
     <string name="edit_born_date">Edit Born Date</string>
     <string name="kota_lahir">Kota Lahir</string>
     <string name="provinsi_lahir">Provinsi Lahir</string>
     <string name="email">Email</string>
     <string name="no_hp">No Hp</string>
+    <string name="about_app">About App</string>
+    <string name="zukron_alviandy_rahmadhan">Zukron Alviandy Rahmadhan</string>
+    <string name="created_by">Created By</string>
+    <string name="no_bp">No BP</string>
+    <string name="_1811081030">1811081030</string>
+    <string name="trpl_2b">TRPL 2B</string>
 </resources>
