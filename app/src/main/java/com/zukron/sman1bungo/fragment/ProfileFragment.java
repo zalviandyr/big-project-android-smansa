@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.zukron.sman1bungo.LoginActivity;
 import com.zukron.sman1bungo.R;
 import com.zukron.sman1bungo.activities.edit.EditBornDateActivity;
+import com.zukron.sman1bungo.activities.edit.EditEmailAndNoHpActivity;
 import com.zukron.sman1bungo.activities.edit.EditProfileGuruSiswaActivity;
 import com.zukron.sman1bungo.model.Guru;
 import com.zukron.sman1bungo.model.Pegawai;
@@ -125,7 +126,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
                 }
                 break;
             case R.id.btn_edit_email_and_no_hp_profile:
-                Toast.makeText(getContext(), "Email No HP", Toast.LENGTH_SHORT).show();
+                if (userSession.getLevel().equals("Guru") || userSession.getLevel().equals("Siswa")) {
+                    Intent intent = new Intent(getContext(), EditEmailAndNoHpActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.btn_about_school_profile:
                 Toast.makeText(getContext(), "School", Toast.LENGTH_SHORT).show();

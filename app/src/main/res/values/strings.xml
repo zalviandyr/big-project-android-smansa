@@ -88,4 +88,6 @@
     <string name="edit_born_date">Edit Born Date</string>
     <string name="kota_lahir">Kota Lahir</string>
     <string name="provinsi_lahir">Provinsi Lahir</string>
+    <string name="email">Email</string>
+    <string name="no_hp">No Hp</string>
 </resources>

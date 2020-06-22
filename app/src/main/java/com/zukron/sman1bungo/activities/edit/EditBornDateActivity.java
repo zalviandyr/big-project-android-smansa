@@ -99,6 +99,7 @@ public class EditBornDateActivity extends AppCompatActivity implements View.OnCl
             case R.id.btn_ok_edit_born_date:
                 if (validateInput()) {
                     sendData();
+                    reloadActivity();
                 }
                 break;
         }
@@ -141,6 +142,11 @@ public class EditBornDateActivity extends AppCompatActivity implements View.OnCl
 
             siswaDao.putFull(siswaData);
         }
+    }
+
+    private void reloadActivity() {
+        finish();
+        startActivity(getIntent());
     }
 
     @Override
