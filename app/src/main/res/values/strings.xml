@@ -20,7 +20,7 @@
     <string name="nama">Nama</string>
     <string name="save_pelajaran">Save Pelajaran</string>
     <string name="level">Level</string>
-    <string name="administrator">Administrator</string>
+    <string name="administrator">Admin</string>
     <string name="guru">Guru</string>
     <string name="tambah_guru">Tambah Guru</string>
     <string name="edit_guru">Edit Guru</string>
@@ -96,4 +96,9 @@
     <string name="_1811081030">1811081030</string>
     <string name="trpl_2b">TRPL 2B</string>
     <string name="edit_no_hp">Edit No Hp</string>
+    <string name="tambah_administrator">Tambah Admin</string>
+    <string name="id_admin">ID Admin</string>
+    <string name="save_admin">Save Admin</string>
+    <string name="edit_admin">Edit Admin</string>
+    <string name="tambah_admin">Tambah Admin</string>
 </resources>

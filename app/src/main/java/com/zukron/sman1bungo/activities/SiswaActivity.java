@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.zukron.sman1bungo.R;
 import com.zukron.sman1bungo.activities.detail.DetailSiswaActivity;
 import com.zukron.sman1bungo.adapter.SiswaAdapter;
@@ -97,7 +98,7 @@ public class SiswaActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onDeleteSelected(final Siswa siswa) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(SiswaActivity.this);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(SiswaActivity.this);
         builder.setTitle("Delete Item");
         builder.setMessage("Bisa menyebabkan data yang menggunakan data yang dihapus akan terhapus.\n\nYakin menghapus ?");
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -123,7 +124,7 @@ public class SiswaActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(getIntent());
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();

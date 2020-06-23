@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.zukron.sman1bungo.R;
 import com.zukron.sman1bungo.adapter.GajiAdapter;
 import com.zukron.sman1bungo.fragment.detail.DetailGajiFragment;
@@ -70,7 +71,7 @@ public class GajiActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onDeleteSelected(final Gaji gaji) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(GajiActivity.this);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(GajiActivity.this);
         builder.setTitle("Delete Item");
         builder.setMessage("Bisa menyebabkan data yang menggunakan data yang dihapus akan terhapus.\n\nYakin menghapus ?");
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -98,7 +99,7 @@ public class GajiActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(getIntent());
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();

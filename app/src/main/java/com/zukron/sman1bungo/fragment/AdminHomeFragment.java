@@ -13,12 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zukron.sman1bungo.R;
+import com.zukron.sman1bungo.activities.AdministratorActivity;
 import com.zukron.sman1bungo.activities.GajiActivity;
 import com.zukron.sman1bungo.activities.GuruActivity;
 import com.zukron.sman1bungo.activities.KelasActivity;
 import com.zukron.sman1bungo.activities.PegawaiActivity;
 import com.zukron.sman1bungo.activities.PelajaranActivity;
-import com.zukron.sman1bungo.activities.detail.DetailAdministratorActivity;
 import com.zukron.sman1bungo.activities.detail.DetailSekolahActivity;
 import com.zukron.sman1bungo.activities.SiswaActivity;
 
@@ -79,8 +79,9 @@ public class AdminHomeFragment extends Fragment implements View.OnClickListener 
                 startActivity(kelasIntent);
                 break;
             case R.id.cv_administrator_admin_home:
-                Intent administratorIntent = new Intent(getContext(), DetailAdministratorActivity.class);
+                Intent administratorIntent = new Intent(getContext(), AdministratorActivity.class);
                 startActivity(administratorIntent);
+                break;
             case R.id.cv_guru_admin_home:
                 Intent guruIntent = new Intent(getContext(), GuruActivity.class);
                 startActivity(guruIntent);

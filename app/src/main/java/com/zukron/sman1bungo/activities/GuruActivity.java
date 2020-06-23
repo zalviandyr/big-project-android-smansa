@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.zukron.sman1bungo.R;
 import com.zukron.sman1bungo.activities.detail.DetailGuruActivity;
 import com.zukron.sman1bungo.adapter.GuruAdapter;
@@ -114,7 +115,7 @@ public class GuruActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onDeleteSelected(final Guru guru) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(GuruActivity.this);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(GuruActivity.this);
         builder.setTitle("Delete Item");
         builder.setMessage("Bisa menyebabkan data yang menggunakan data yang dihapus akan terhapus.\n\nYakin menghapus ?");
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -140,7 +141,7 @@ public class GuruActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(getIntent());
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();

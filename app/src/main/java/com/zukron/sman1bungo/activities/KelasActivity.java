@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.zukron.sman1bungo.R;
 import com.zukron.sman1bungo.adapter.KelasAdapter;
 import com.zukron.sman1bungo.fragment.detail.DetailKelasFragment;
@@ -104,7 +105,7 @@ public class KelasActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onDeleteSelected(final Kelas kelas) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(KelasActivity.this);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(KelasActivity.this);
         builder.setTitle("Delete Item");
         builder.setMessage("Bisa menyebabkan data yang menggunakan data yang dihapus akan terhapus.\n\nYakin menghapus ?");
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -130,7 +131,7 @@ public class KelasActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(getIntent());
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();

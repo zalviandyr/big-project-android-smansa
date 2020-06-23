@@ -50,7 +50,7 @@ public class AdminDao {
                 try {
                     JSONObject adminJson = new JSONObject(response);
                     Admin admin = new Admin(
-                            adminJson.getString("id_pegawai"),
+                            adminJson.getString("id_admin"),
                             adminJson.getString("first_name"),
                             adminJson.getString("last_name"),
                             LocalDate.parse(adminJson.getString("tanggal_lahir")),
@@ -84,7 +84,7 @@ public class AdminDao {
                 try {
                     JSONObject adminJson = new JSONObject(response);
                     Admin admin = new Admin(
-                            adminJson.getString("id_pegawai"),
+                            adminJson.getString("id_admin"),
                             adminJson.getString("first_name"),
                             adminJson.getString("last_name"),
                             LocalDate.parse(adminJson.getString("tanggal_lahir")),
@@ -121,7 +121,7 @@ public class AdminDao {
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject adminJson = array.getJSONObject(i);
                         adminList.add(new Admin(
-                                adminJson.getString("id_pegawai"),
+                                adminJson.getString("id_admin"),
                                 adminJson.getString("first_name"),
                                 adminJson.getString("last_name"),
                                 LocalDate.parse(adminJson.getString("tanggal_lahir")),
@@ -224,7 +224,7 @@ public class AdminDao {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("id_pegawai", pegawai.getIdAdmin());
+                params.put("id_admin", pegawai.getIdAdmin());
                 params.put("first_name", pegawai.getFirstName());
                 params.put("last_name", pegawai.getLastName());
                 params.put("tanggal_lahir", String.valueOf(pegawai.getTanggalLahir()));
@@ -254,7 +254,7 @@ public class AdminDao {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("id_pegawai", pegawai.getIdAdmin());
+                params.put("id_admin", pegawai.getIdAdmin());
                 params.put("first_name", pegawai.getFirstName());
                 params.put("last_name", pegawai.getLastName());
                 params.put("tanggal_lahir", String.valueOf(pegawai.getTanggalLahir()));

@@ -1,8 +1,11 @@
 package com.zukron.sman1bungo.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.threeten.bp.LocalDate;
 
-public class Admin {
+public class Admin implements Parcelable {
     private String idAdmin;
     private String firstName;
     private String lastName;
@@ -22,6 +25,29 @@ public class Admin {
         this.idGaji = idGaji;
         this.username = username;
     }
+
+    protected Admin(Parcel in) {
+        idAdmin = in.readString();
+        firstName = in.readString();
+        lastName = in.readString();
+        tanggalLahir = (LocalDate) in.readSerializable();
+        noHp = in.readString();
+        jekel = in.readString();
+        idGaji = in.readString();
+        username = in.readString();
+    }
+
+    public static final Creator<Admin> CREATOR = new Creator<Admin>() {
+        @Override
+        public Admin createFromParcel(Parcel in) {
+            return new Admin(in);
+        }
+
+        @Override
+        public Admin[] newArray(int size) {
+            return new Admin[size];
+        }
+    };
 
     public String getIdAdmin() {
         return idAdmin;
@@ -53,5 +79,22 @@ public class Admin {
 
     public String getUsername() {
         return username;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(idAdmin);
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeSerializable(tanggalLahir);
+        dest.writeString(noHp);
+        dest.writeString(jekel);
+        dest.writeString(idGaji);
+        dest.writeString(username);
     }
 }

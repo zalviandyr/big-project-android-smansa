@@ -6,15 +6,19 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="materialButtonStyle">@style/Widget.App.Button</item>
 
-        <item name="alertDialogStyle">@style/MyAlertDialog</item>
-        <item name="android:buttonBarButtonStyle">@style/MyButtonBar</item>
+        <item name="materialAlertDialogTheme">@style/MyAlertDialog</item>
     </style>
 
+    <!--  DATE PICKER  -->
     <style name="MyDatePicker" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorPrimary">@color/colorOrange</item>
         <item name="colorPrimaryDark">@color/colorDarkSkyBlue</item>
         <item name="colorAccent">@color/colorSkyBlue</item>
         <item name="android:buttonBarButtonStyle">@style/MyButtonBar</item>
+    </style>
+
+    <style name="MyButtonBar">
+        <item name="android:layout_marginStart">20dp</item>
     </style>
 
     <!--  BUTTON  -->
@@ -48,11 +52,18 @@
     </style>
 
     <!--  ALERT DIALOG  -->
-    <style name="MyAlertDialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">
-        <item name="materialButtonStyle">@style/Widget.App.Button</item>
+    <style name="MyAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.App.Button</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Widget.App.Button</item>
     </style>
 
-    <style name="MyButtonBar">
-        <item name="android:layout_marginStart">20dp</item>
+    <style name="MaterialAlertDialog.App" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20dp</item>
     </style>
 </resources>

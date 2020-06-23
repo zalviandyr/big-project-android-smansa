@@ -17,7 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.detail.DetailAdministratorActivity"></activity>
         <activity android:name=".activities.edit.EditNoHpActivity" />
         <activity android:name=".activities.edit.EditProfilePegawaiActivity" />
         <activity android:name=".activities.about.AboutAppActivity" />
@@ -25,6 +24,8 @@
         <activity android:name=".activities.edit.EditEmailAndNoHpActivity" />
         <activity android:name=".activities.edit.EditBornDateActivity" />
         <activity android:name=".activities.edit.EditProfileGuruSiswaActivity" />
+        <activity android:name=".activities.AdministratorActivity" />
+        <activity android:name=".activities.detail.DetailAdministratorActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
