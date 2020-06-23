@@ -27,7 +27,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setSpinnerStatusRegiter() {
-        String[] status = {"Guru", "Pegawai", "Siswa"};
+        String[] status = {"Admin", "Guru", "Pegawai", "Siswa"};
         ArrayAdapter arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, status);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinStatusRegister.setAdapter(arrayAdapter);

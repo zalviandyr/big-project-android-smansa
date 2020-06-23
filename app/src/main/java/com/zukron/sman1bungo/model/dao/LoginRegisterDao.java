@@ -74,6 +74,35 @@ public class LoginRegisterDao {
         executeRequestQueue(stringRequest);
     }
 
+    public void postAdmin(final String username, final String password, final String idAdmin) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, LoginRegisterEndpoint.post("ADMIN"), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                isRequestFinished = true;
+                onListener.defaultResponse(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                onListener.errorResponse(error);
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("username", username);
+                params.put("password", password);
+                params.put("level", "Administrator");
+                params.put("id_admin", idAdmin);
+
+                return params;
+            }
+        };
+
+        executeRequestQueue(stringRequest);
+    }
+
     public void postGuru(final String username, final String password, final String nip) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, LoginRegisterEndpoint.post("GURU"), new Response.Listener<String>() {
             @Override

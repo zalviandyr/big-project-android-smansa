@@ -18,10 +18,12 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.zukron.sman1bungo.model.Admin;
 import com.zukron.sman1bungo.model.Guru;
 import com.zukron.sman1bungo.model.Pegawai;
 import com.zukron.sman1bungo.model.Siswa;
 import com.zukron.sman1bungo.model.User;
+import com.zukron.sman1bungo.model.dao.AdminDao;
 import com.zukron.sman1bungo.model.dao.GuruDao;
 import com.zukron.sman1bungo.model.dao.LoginRegisterDao;
 import com.zukron.sman1bungo.model.dao.PegawaiDao;
@@ -31,13 +33,14 @@ import com.zukron.sman1bungo.util.Tools;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
-public class RegisterFragment extends Fragment implements View.OnClickListener, LoginRegisterDao.onListener, GuruDao.onListener, PegawaiDao.onListener, SiswaDao.onListener {
+public class RegisterFragment extends Fragment implements View.OnClickListener, LoginRegisterDao.onListener, AdminDao.onListener, GuruDao.onListener, PegawaiDao.onListener, SiswaDao.onListener {
     private TextInputLayout inputLayoutIdRegister, inputLayoutUsernameRegister, inputLayoutPasswordRegister;
     private TextInputEditText inputIdRegister, inputUsernameRegister, inputPasswordRegister;
     private Button btnRegister;
     private String status;
     private ProgressDialog progressDialog;
     private LoginRegisterDao loginRegisterDao;
+    private AdminDao adminDao;
     private GuruDao guruDao;
     private PegawaiDao pegawaiDao;
     private SiswaDao siswaDao;
@@ -58,6 +61,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         super.onViewCreated(view, savedInstanceState);
 
         loginRegisterDao = new LoginRegisterDao(getContext(), this);
+        adminDao = new AdminDao(getContext(), this);
         guruDao = new GuruDao(getContext(), this);
         pegawaiDao = new PegawaiDao(getContext(), this);
         siswaDao = new SiswaDao(getContext(), this);
@@ -71,6 +75,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         inputUsernameRegister = view.findViewById(R.id.input_username_register);
         inputLayoutPasswordRegister = view.findViewById(R.id.input_layout_password_register);
         inputPasswordRegister = view.findViewById(R.id.input_password_register);
+
+        if (status.equals("Admin")) {
+            inputIdRegister.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+            inputLayoutIdRegister.setHint("ID Admin");
+        }
 
         if (status.equals("Guru")) {
             inputIdRegister.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -123,6 +132,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void registerAction() {
+        if (status.equals("Admin")) {
+            String idAdmin = inputIdRegister.getText().toString().trim();
+
+            adminDao.getId(idAdmin);
+        }
+
         if (status.equals("Guru")) {
             String nip = inputIdRegister.getText().toString().trim();
 
@@ -194,6 +209,20 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     }
 
     @Override
+    public void adminResponse(Admin admin) {
+        String username = inputUsernameRegister.getText().toString().trim();
+        String password = Tools.toMd5(inputPasswordRegister.getText().toString().trim());
+        String idAdmin = admin.getIdAdmin();
+
+        loginRegisterDao.postAdmin(username, password, idAdmin);
+    }
+
+    @Override
+    public void adminListResponse(ArrayList<Admin> adminList) {
+        // no need
+    }
+
+    @Override
     public void defaultResponse(String response) {
         if (response.equals("Berhasil Register")) {
             progressDialog.dismiss();
@@ -205,6 +234,25 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void errorResponse(VolleyError error) {
         progressDialog.dismiss();
+
+        if (status.equals("Admin")) {
+            if (error.networkResponse.statusCode == HttpURLConnection.HTTP_NOT_FOUND) {
+                inputLayoutIdRegister.setError("ID tidak ada");
+                Toast.makeText(getContext(), "ID tidak ada", Toast.LENGTH_SHORT).show();
+            }
+
+            // jika id sudah terdaftar
+            if (error.networkResponse.statusCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                inputLayoutIdRegister.setError("ID telah terdaftar");
+                Toast.makeText(getContext(), "ID tersebut telah terdaftar", Toast.LENGTH_SHORT).show();
+            }
+
+            // jika terjadi duplikasi username
+            if (error.networkResponse.statusCode == HttpURLConnection.HTTP_BAD_REQUEST) {
+                inputLayoutUsernameRegister.setError("Username telah terdaftar");
+                Toast.makeText(getContext(), "Username tersebut telah terdaftar", Toast.LENGTH_SHORT).show();
+            }
+        }
 
         if (status.equals("Guru")) {
             if (error.networkResponse.statusCode == HttpURLConnection.HTTP_NOT_FOUND) {
