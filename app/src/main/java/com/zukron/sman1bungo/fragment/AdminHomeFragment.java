@@ -1,5 +1,6 @@
 package com.zukron.sman1bungo.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,7 +12,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.zukron.sman1bungo.R;
 import com.zukron.sman1bungo.activities.AdministratorActivity;
 import com.zukron.sman1bungo.activities.GajiActivity;
@@ -21,10 +24,20 @@ import com.zukron.sman1bungo.activities.PegawaiActivity;
 import com.zukron.sman1bungo.activities.PelajaranActivity;
 import com.zukron.sman1bungo.activities.detail.DetailSekolahActivity;
 import com.zukron.sman1bungo.activities.SiswaActivity;
+import com.zukron.sman1bungo.model.Admin;
+import com.zukron.sman1bungo.model.User;
+import com.zukron.sman1bungo.model.dao.AdminDao;
+import com.zukron.sman1bungo.util.Session;
 
-public class AdminHomeFragment extends Fragment implements View.OnClickListener {
+import java.util.ArrayList;
+
+public class AdminHomeFragment extends Fragment implements View.OnClickListener, AdminDao.onListener {
+    private TextView tvNamaAdminHome;
     private CardView cvSekolahHomeAdmin, cvGajiHomeAdmin, cvPelajaranHomeAdmin, cvKelasHomeAdmin,
             cvAdministratorHomeAdmin, cvGuruHomeAdmin, cvPegawaiHomeAdmin, cvSiswaHomeAdmin;
+    private AdminDao adminDao;
+    private ProgressDialog progressDialog;
+    private User userSession = Session.getSession();
 
     public AdminHomeFragment() {
         // Required empty public constructor
@@ -40,6 +53,10 @@ public class AdminHomeFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        adminDao = new AdminDao(getContext(), this);
+
+        tvNamaAdminHome = view.findViewById(R.id.tv_nama_admin_home);
 
         cvSekolahHomeAdmin = view.findViewById(R.id.cv_sekolah_admin_home);
         cvSekolahHomeAdmin.setOnClickListener(this);
@@ -57,6 +74,17 @@ public class AdminHomeFragment extends Fragment implements View.OnClickListener 
         cvPegawaiHomeAdmin.setOnClickListener(this);
         cvSiswaHomeAdmin = view.findViewById(R.id.cv_siswa_admin_home);
         cvSiswaHomeAdmin.setOnClickListener(this);
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Proses ambil data");
+        progressDialog.show();
+
+        retrieveData();
+    }
+
+    private void retrieveData() {
+        String username = userSession.getUsername();
+        adminDao.getUsername(username);
     }
 
     @Override
@@ -95,5 +123,29 @@ public class AdminHomeFragment extends Fragment implements View.OnClickListener 
                 startActivity(siswaIntent);
                 break;
         }
+    }
+
+    @Override
+    public void adminResponse(Admin admin) {
+        progressDialog.dismiss();
+
+        String nama = admin.getFirstName() + " " + admin.getLastName();
+
+        tvNamaAdminHome.setText(nama);
+    }
+
+    @Override
+    public void adminListResponse(ArrayList<Admin> adminList) {
+        // no need
+    }
+
+    @Override
+    public void defaultResponse(String response) {
+        // no need
+    }
+
+    @Override
+    public void errorResponse(VolleyError error) {
+        error.printStackTrace();
     }
 }
