@@ -173,7 +173,8 @@ public class EditProfilePegawaiActivity extends AppCompatActivity implements Vie
 
     @Override
     public void errorResponse(VolleyError error) {
-
+        progressDialog.dismiss();
+        error.printStackTrace();
     }
 
     @Override
