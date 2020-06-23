@@ -13,19 +13,23 @@ import com.android.volley.VolleyError;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.zukron.sman1bungo.R;
+import com.zukron.sman1bungo.model.Admin;
 import com.zukron.sman1bungo.model.Pegawai;
 import com.zukron.sman1bungo.model.User;
+import com.zukron.sman1bungo.model.dao.AdminDao;
 import com.zukron.sman1bungo.model.dao.PegawaiDao;
 import com.zukron.sman1bungo.util.Session;
 
 import java.util.ArrayList;
 
-public class EditNoHpActivity extends AppCompatActivity implements View.OnClickListener, PegawaiDao.onListener {
+public class EditNoHpActivity extends AppCompatActivity implements View.OnClickListener, PegawaiDao.onListener, AdminDao.onListener {
     private TextInputLayout inputLayoutNoHpEditNoHp;
     private TextInputEditText inputNoHpEditNoHp;
     private Button btnOkEditNoHp;
     private PegawaiDao pegawaiDao;
     private Pegawai pegawai;
+    private AdminDao adminDao;
+    private Admin admin;
     private ProgressDialog progressDialog;
     private User userSession = Session.getSession();
 
@@ -35,6 +39,7 @@ public class EditNoHpActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_edit_no_hp);
 
         pegawaiDao = new PegawaiDao(this, this);
+        adminDao = new AdminDao(this, this);
 
         inputLayoutNoHpEditNoHp = findViewById(R.id.input_layout_no_hp_edit_no_hp);
         inputNoHpEditNoHp = findViewById(R.id.input_no_hp_edit_no_hp);
@@ -50,7 +55,10 @@ public class EditNoHpActivity extends AppCompatActivity implements View.OnClickL
 
     private void retrieveData() {
         String username = userSession.getUsername();
-        pegawaiDao.getUsername(username);
+        if (userSession.getLevel().equals("Pegawai"))
+            pegawaiDao.getUsername(username);
+        if (userSession.getLevel().equals("Administrator"))
+            adminDao.getUsername(username);
     }
 
     @Override
@@ -81,27 +89,58 @@ public class EditNoHpActivity extends AppCompatActivity implements View.OnClickL
     private void sendData() {
         String noHp = inputNoHpEditNoHp.getText().toString().trim();
 
-        Pegawai pegawaiData = new Pegawai(
-                pegawai.getIdPegawai(), pegawai.getFirstName(), pegawai.getLastName(), pegawai.getTanggalLahir(),
-                noHp, pegawai.getJekel(), pegawai.getJabatan(),
-                pegawai.getIdGaji(), pegawai.getUsername()
-        );
+        if (userSession.getLevel().equals("Pegawai")) {
+            Pegawai pegawaiData = new Pegawai(
+                    pegawai.getIdPegawai(), pegawai.getFirstName(), pegawai.getLastName(), pegawai.getTanggalLahir(),
+                    noHp, pegawai.getJekel(), pegawai.getJabatan(),
+                    pegawai.getIdGaji(), pegawai.getUsername()
+            );
 
-        pegawaiDao.putFull(pegawaiData);
+            pegawaiDao.putFull(pegawaiData);
+        }
+
+        if (userSession.getLevel().equals("Administrator")) {
+            Admin adminData = new Admin(
+                    admin.getIdAdmin(), admin.getFirstName(), admin.getLastName(),
+                    admin.getTanggalLahir(), noHp, admin.getJekel(),
+                    admin.getIdGaji(), admin.getUsername()
+            );
+
+            adminDao.putFull(adminData);
+        }
     }
 
     @Override
     public void pegawaiResponse(Pegawai pegawai) {
-        progressDialog.dismiss();
-        this.pegawai = pegawai;
+        if (userSession.getLevel().equals("Pegawai")) {
+            progressDialog.dismiss();
+            this.pegawai = pegawai;
 
-        String noHp = (pegawai.getNoHp().equals("null")) ? "" : pegawai.getNoHp();
+            String noHp = (pegawai.getNoHp().equals("null")) ? "" : pegawai.getNoHp();
 
-        inputNoHpEditNoHp.setText(noHp);
+            inputNoHpEditNoHp.setText(noHp);
+        }
     }
 
     @Override
     public void pegawaiListResponse(ArrayList<Pegawai> pegawaiList) {
+        // no need
+    }
+
+    @Override
+    public void adminResponse(Admin admin) {
+        if (userSession.getLevel().equals("Administrator")) {
+            progressDialog.dismiss();
+            this.admin = admin;
+
+            String noHp = (admin.getNoHp().equals("null")) ? "" : admin.getNoHp();
+
+            inputNoHpEditNoHp.setText(noHp);
+        }
+    }
+
+    @Override
+    public void adminListResponse(ArrayList<Admin> adminList) {
         // no need
     }
 

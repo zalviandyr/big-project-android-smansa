@@ -67,15 +67,15 @@ public class EditProfileGuruSiswaActivity extends AppCompatActivity implements V
     }
 
     private void retrieveData() {
+        String username = userSession.getUsername();
+
         if (userSession.getLevel().equals("Guru")) {
-            String username = userSession.getUsername();
             inputLayoutIdGuruSiswaEditProfile.setHint("NIP");
 
             guruDao.getUsername(username);
         }
 
         if (userSession.getLevel().equals("Siswa")) {
-            String username = userSession.getUsername();
             inputLayoutIdGuruSiswaEditProfile.setHint("NISN");
 
             siswaDao.getUsername(username);

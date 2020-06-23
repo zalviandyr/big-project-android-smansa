@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.zukron.sman1bungo.LoginActivity;
@@ -25,11 +24,13 @@ import com.zukron.sman1bungo.activities.edit.EditBornDateActivity;
 import com.zukron.sman1bungo.activities.edit.EditEmailAndNoHpActivity;
 import com.zukron.sman1bungo.activities.edit.EditNoHpActivity;
 import com.zukron.sman1bungo.activities.edit.EditProfileGuruSiswaActivity;
-import com.zukron.sman1bungo.activities.edit.EditProfilePegawaiActivity;
+import com.zukron.sman1bungo.activities.edit.EditProfileAdminPegawaiActivity;
+import com.zukron.sman1bungo.model.Admin;
 import com.zukron.sman1bungo.model.Guru;
 import com.zukron.sman1bungo.model.Pegawai;
 import com.zukron.sman1bungo.model.Siswa;
 import com.zukron.sman1bungo.model.User;
+import com.zukron.sman1bungo.model.dao.AdminDao;
 import com.zukron.sman1bungo.model.dao.GuruDao;
 import com.zukron.sman1bungo.model.dao.PegawaiDao;
 import com.zukron.sman1bungo.model.dao.SiswaDao;
@@ -37,10 +38,11 @@ import com.zukron.sman1bungo.util.Session;
 
 import java.util.ArrayList;
 
-public class ProfileFragment extends Fragment implements View.OnClickListener, GuruDao.onListener, PegawaiDao.onListener, SiswaDao.onListener {
+public class ProfileFragment extends Fragment implements View.OnClickListener, AdminDao.onListener, GuruDao.onListener, PegawaiDao.onListener, SiswaDao.onListener {
     private TextView tvNamaProfile, tvIdProfile, tvUsernameProfile;
     private Button btnEditProfile, btnEditBornDateProfile, btnEditNoHpProfile, btnEditEmailAndNoHpProfile, btnAboutSchoolProfile, btnAboutAppProfile, btnLogOutProfile;
     private User userSession = Session.getSession();
+    private AdminDao adminDao;
     private GuruDao guruDao;
     private PegawaiDao pegawaiDao;
     private SiswaDao siswaDao;
@@ -61,6 +63,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        adminDao = new AdminDao(getContext(), this);
         guruDao = new GuruDao(getContext(), this);
         pegawaiDao = new PegawaiDao(getContext(), this);
         siswaDao = new SiswaDao(getContext(), this);
@@ -91,24 +94,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
             btnLogOutProfile.setOnClickListener(this);
         }
 
-        if (userSession.getLevel().equals("Pegawai")) {
+        if (userSession.getLevel().equals("Pegawai") || userSession.getLevel().equals("Administrator")) {
             viewButton = layoutInflater.inflate(R.layout.button_menu_profile2, null);
 
             btnEditProfile = viewButton.findViewById(R.id.btn_edit_profile);
             btnEditProfile.setOnClickListener(this);
             btnEditNoHpProfile = viewButton.findViewById(R.id.btn_edit_no_hp_profile);
             btnEditNoHpProfile.setOnClickListener(this);
-            btnAboutSchoolProfile = viewButton.findViewById(R.id.btn_about_school_profile);
-            btnAboutSchoolProfile.setOnClickListener(this);
-            btnAboutAppProfile = viewButton.findViewById(R.id.btn_about_app_profile);
-            btnAboutAppProfile.setOnClickListener(this);
-            btnLogOutProfile = viewButton.findViewById(R.id.btn_log_out_profile);
-            btnLogOutProfile.setOnClickListener(this);
-        }
-
-        if (userSession.getLevel().equals("Administrator")) {
-            viewButton = layoutInflater.inflate(R.layout.button_menu_profile3, null);
-
             btnAboutSchoolProfile = viewButton.findViewById(R.id.btn_about_school_profile);
             btnAboutSchoolProfile.setOnClickListener(this);
             btnAboutAppProfile = viewButton.findViewById(R.id.btn_about_app_profile);
@@ -139,6 +131,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
         if (userSession.getLevel().equals("Siswa")) {
             siswaDao.getUsername(userSession.getUsername());
         }
+
+        if (userSession.getLevel().equals("Administrator")) {
+            adminDao.getUsername(userSession.getUsername());
+        }
     }
 
     @Override
@@ -150,19 +146,21 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
                     startActivity(intent);
                 }
 
-                if (userSession.getLevel().equals("Pegawai")) {
-                    Intent intent = new Intent(getContext(), EditProfilePegawaiActivity.class);
+                if (userSession.getLevel().equals("Pegawai") || userSession.getLevel().equals("Administrator")) {
+                    Intent intent = new Intent(getContext(), EditProfileAdminPegawaiActivity.class);
                     startActivity(intent);
                 }
                 break;
+
             case R.id.btn_edit_born_date_profile:
                 if (userSession.getLevel().equals("Guru") || userSession.getLevel().equals("Siswa")) {
                     Intent intent = new Intent(getContext(), EditBornDateActivity.class);
                     startActivity(intent);
                 }
                 break;
+
             case R.id.btn_edit_no_hp_profile:
-                if (userSession.getLevel().equals("Pegawai")) {
+                if (userSession.getLevel().equals("Pegawai") || userSession.getLevel().equals("Administrator")) {
                     Intent intent = new Intent(getContext(), EditNoHpActivity.class);
                     startActivity(intent);
                 }
@@ -172,14 +170,17 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
                     startActivity(intent);
                 }
                 break;
+
             case R.id.btn_about_school_profile:
                 Intent intentAboutSchool = new Intent(getContext(), AboutSchoolActivity.class);
                 startActivity(intentAboutSchool);
                 break;
+
             case R.id.btn_about_app_profile:
                 Intent intentAboutApp = new Intent(getContext(), AboutAppActivity.class);
                 startActivity(intentAboutApp);
                 break;
+
             case R.id.btn_log_out_profile:
                 Intent intentLogOut = new Intent(getContext(), LoginActivity.class);
                 intentLogOut.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -241,6 +242,25 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
 
     @Override
     public void siswaListResponse(ArrayList<Siswa> siswaList) {
+        // no need
+    }
+
+    @Override
+    public void adminResponse(Admin admin) {
+        progressDialog.dismiss();
+        if (userSession.getLevel().equals("Administrator")) {
+            String nama = admin.getFirstName() + " " + admin.getLastName();
+            String nisn = admin.getIdAdmin();
+            String username = userSession.getUsername();
+
+            tvNamaProfile.setText(nama);
+            tvIdProfile.setText(nisn);
+            tvUsernameProfile.setText(username);
+        }
+    }
+
+    @Override
+    public void adminListResponse(ArrayList<Admin> adminList) {
         // no need
     }
 
