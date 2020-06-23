@@ -23,7 +23,9 @@ import com.zukron.sman1bungo.activities.about.AboutAppActivity;
 import com.zukron.sman1bungo.activities.about.AboutSchoolActivity;
 import com.zukron.sman1bungo.activities.edit.EditBornDateActivity;
 import com.zukron.sman1bungo.activities.edit.EditEmailAndNoHpActivity;
+import com.zukron.sman1bungo.activities.edit.EditNoHpActivity;
 import com.zukron.sman1bungo.activities.edit.EditProfileGuruSiswaActivity;
+import com.zukron.sman1bungo.activities.edit.EditProfilePegawaiActivity;
 import com.zukron.sman1bungo.model.Guru;
 import com.zukron.sman1bungo.model.Pegawai;
 import com.zukron.sman1bungo.model.Siswa;
@@ -37,7 +39,7 @@ import java.util.ArrayList;
 
 public class ProfileFragment extends Fragment implements View.OnClickListener, GuruDao.onListener, PegawaiDao.onListener, SiswaDao.onListener {
     private TextView tvNamaProfile, tvIdProfile, tvUsernameProfile;
-    private Button btnEditProfile, btnEditBornDateProfile, btnEditEmailAndNoHpProfile, btnAboutSchoolProfile, btnAboutAppProfile, btnLogOutProfile;
+    private Button btnEditProfile, btnEditBornDateProfile, btnEditNoHpProfile, btnEditEmailAndNoHpProfile, btnAboutSchoolProfile, btnAboutAppProfile, btnLogOutProfile;
     private User userSession = Session.getSession();
     private GuruDao guruDao;
     private PegawaiDao pegawaiDao;
@@ -89,13 +91,31 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
             btnLogOutProfile.setOnClickListener(this);
         }
 
+        if (userSession.getLevel().equals("Pegawai")) {
+            viewButton = layoutInflater.inflate(R.layout.button_menu_profile2, null);
+
+            btnEditProfile = viewButton.findViewById(R.id.btn_edit_profile);
+            btnEditProfile.setOnClickListener(this);
+            btnEditNoHpProfile = viewButton.findViewById(R.id.btn_edit_no_hp_profile);
+            btnEditNoHpProfile.setOnClickListener(this);
+            btnAboutSchoolProfile = viewButton.findViewById(R.id.btn_about_school_profile);
+            btnAboutSchoolProfile.setOnClickListener(this);
+            btnAboutAppProfile = viewButton.findViewById(R.id.btn_about_app_profile);
+            btnAboutAppProfile.setOnClickListener(this);
+            btnLogOutProfile = viewButton.findViewById(R.id.btn_log_out_profile);
+            btnLogOutProfile.setOnClickListener(this);
+        }
+
         flButtonMenuProfile.addView(viewButton);
 
-        progressDialog = new ProgressDialog(getContext());
+        progressDialog = new
+
+                ProgressDialog(getContext());
         progressDialog.setMessage("Proses ambil data");
         progressDialog.show();
 
         retrieveData();
+
     }
 
     private void retrieveData() {
@@ -120,6 +140,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
                     Intent intent = new Intent(getContext(), EditProfileGuruSiswaActivity.class);
                     startActivity(intent);
                 }
+
+                if (userSession.getLevel().equals("Pegawai")) {
+                    Intent intent = new Intent(getContext(), EditProfilePegawaiActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.btn_edit_born_date_profile:
                 if (userSession.getLevel().equals("Guru") || userSession.getLevel().equals("Siswa")) {
@@ -127,6 +152,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
                     startActivity(intent);
                 }
                 break;
+            case R.id.btn_edit_no_hp_profile:
+                if (userSession.getLevel().equals("Pegawai")) {
+                    Intent intent = new Intent(getContext(), EditNoHpActivity.class);
+                    startActivity(intent);
+                }
             case R.id.btn_edit_email_and_no_hp_profile:
                 if (userSession.getLevel().equals("Guru") || userSession.getLevel().equals("Siswa")) {
                     Intent intent = new Intent(getContext(), EditEmailAndNoHpActivity.class);
