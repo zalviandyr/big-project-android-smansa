@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.edit.EditNoHpActivity"></activity>
+        <activity android:name=".activities.detail.DetailAdministratorActivity"></activity>
+        <activity android:name=".activities.edit.EditNoHpActivity" />
         <activity android:name=".activities.edit.EditProfilePegawaiActivity" />
         <activity android:name=".activities.about.AboutAppActivity" />
         <activity android:name=".activities.about.AboutSchoolActivity" />

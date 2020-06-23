@@ -18,11 +18,13 @@ import com.zukron.sman1bungo.activities.GuruActivity;
 import com.zukron.sman1bungo.activities.KelasActivity;
 import com.zukron.sman1bungo.activities.PegawaiActivity;
 import com.zukron.sman1bungo.activities.PelajaranActivity;
+import com.zukron.sman1bungo.activities.detail.DetailAdministratorActivity;
 import com.zukron.sman1bungo.activities.detail.DetailSekolahActivity;
 import com.zukron.sman1bungo.activities.SiswaActivity;
 
 public class AdminHomeFragment extends Fragment implements View.OnClickListener {
-    private CardView cvSekolahHomeAdmin, cvGajiHomeAdmin, cvPelajaranHomeAdmin, cvKelasHomeAdmin, cvGuruHomeAdmin, cvPegawaiHomeAdmin, cvSiswaHomeAdmin;
+    private CardView cvSekolahHomeAdmin, cvGajiHomeAdmin, cvPelajaranHomeAdmin, cvKelasHomeAdmin,
+            cvAdministratorHomeAdmin, cvGuruHomeAdmin, cvPegawaiHomeAdmin, cvSiswaHomeAdmin;
 
     public AdminHomeFragment() {
         // Required empty public constructor
@@ -47,6 +49,8 @@ public class AdminHomeFragment extends Fragment implements View.OnClickListener 
         cvPelajaranHomeAdmin.setOnClickListener(this);
         cvKelasHomeAdmin = view.findViewById(R.id.cv_kelas_admin_home);
         cvKelasHomeAdmin.setOnClickListener(this);
+        cvAdministratorHomeAdmin = view.findViewById(R.id.cv_administrator_admin_home);
+        cvAdministratorHomeAdmin.setOnClickListener(this);
         cvGuruHomeAdmin = view.findViewById(R.id.cv_guru_admin_home);
         cvGuruHomeAdmin.setOnClickListener(this);
         cvPegawaiHomeAdmin = view.findViewById(R.id.cv_pegawai_admin_home);
@@ -74,6 +78,9 @@ public class AdminHomeFragment extends Fragment implements View.OnClickListener 
                 Intent kelasIntent = new Intent(getContext(), KelasActivity.class);
                 startActivity(kelasIntent);
                 break;
+            case R.id.cv_administrator_admin_home:
+                Intent administratorIntent = new Intent(getContext(), DetailAdministratorActivity.class);
+                startActivity(administratorIntent);
             case R.id.cv_guru_admin_home:
                 Intent guruIntent = new Intent(getContext(), GuruActivity.class);
                 startActivity(guruIntent);

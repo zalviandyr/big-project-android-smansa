@@ -106,11 +106,20 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
             btnLogOutProfile.setOnClickListener(this);
         }
 
+        if (userSession.getLevel().equals("Administrator")) {
+            viewButton = layoutInflater.inflate(R.layout.button_menu_profile3, null);
+
+            btnAboutSchoolProfile = viewButton.findViewById(R.id.btn_about_school_profile);
+            btnAboutSchoolProfile.setOnClickListener(this);
+            btnAboutAppProfile = viewButton.findViewById(R.id.btn_about_app_profile);
+            btnAboutAppProfile.setOnClickListener(this);
+            btnLogOutProfile = viewButton.findViewById(R.id.btn_log_out_profile);
+            btnLogOutProfile.setOnClickListener(this);
+        }
+
         flButtonMenuProfile.addView(viewButton);
 
-        progressDialog = new
-
-                ProgressDialog(getContext());
+        progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Proses ambil data");
         progressDialog.show();
 
