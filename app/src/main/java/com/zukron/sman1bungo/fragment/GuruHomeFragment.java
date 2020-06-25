@@ -12,27 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.zukron.sman1bungo.R;
 import com.zukron.sman1bungo.model.Guru;
-import com.zukron.sman1bungo.model.Pegawai;
 import com.zukron.sman1bungo.model.Pelajaran;
 import com.zukron.sman1bungo.model.User;
 import com.zukron.sman1bungo.model.dao.GuruDao;
-import com.zukron.sman1bungo.model.dao.PegawaiDao;
 import com.zukron.sman1bungo.model.dao.PelajaranDao;
 import com.zukron.sman1bungo.util.Session;
-import com.zukron.sman1bungo.util.api.GuruEndpoint;
-import com.zukron.sman1bungo.util.api.PelajaranEndpoint;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -118,6 +105,11 @@ public class GuruHomeFragment extends Fragment implements GuruDao.onListener, Pe
     }
 
     @Override
+    public void messageResponse(int method, String message) {
+        // no need
+    }
+
+    @Override
     public void pelajaranResponse(Pelajaran pelajaran) {
         // no need
     }
@@ -125,11 +117,6 @@ public class GuruHomeFragment extends Fragment implements GuruDao.onListener, Pe
     @Override
     public void pelajaranListResponse(ArrayList<Pelajaran> pelajaranList) {
         this.pelajaranList = pelajaranList;
-    }
-
-    @Override
-    public void defaultResponse(String response) {
-        // no need
     }
 
     @Override

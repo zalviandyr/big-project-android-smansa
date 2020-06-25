@@ -49,20 +49,23 @@ public class PegawaiDao {
                 isRequestFinished = true;
                 try {
                     JSONObject pegawaiJson = new JSONObject(response);
+                    JSONObject dataJson = pegawaiJson.getJSONObject("data");
+
                     Pegawai pegawai = new Pegawai(
-                            pegawaiJson.getString("id_pegawai"),
-                            pegawaiJson.getString("first_name"),
-                            pegawaiJson.getString("last_name"),
-                            LocalDate.parse(pegawaiJson.getString("tanggal_lahir")),
-                            pegawaiJson.getString("no_hp"),
-                            pegawaiJson.getString("jekel"),
-                            pegawaiJson.getString("jabatan"),
-                            pegawaiJson.getString("id_gaji"),
-                            pegawaiJson.getString("username")
+                            dataJson.getString("id_pegawai"),
+                            dataJson.getString("first_name"),
+                            dataJson.getString("last_name"),
+                            LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                            dataJson.getString("no_hp"),
+                            dataJson.getString("jekel"),
+                            dataJson.getString("jabatan"),
+                            dataJson.getString("id_gaji"),
+                            dataJson.getString("username")
                     );
+                    String message = pegawaiJson.getString("message");
 
                     onListener.pegawaiResponse(pegawai);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -84,20 +87,23 @@ public class PegawaiDao {
                 isRequestFinished = true;
                 try {
                     JSONObject pegawaiJson = new JSONObject(response);
+                    JSONObject dataJson = pegawaiJson.getJSONObject("data");
+
                     Pegawai pegawai = new Pegawai(
-                            pegawaiJson.getString("id_pegawai"),
-                            pegawaiJson.getString("first_name"),
-                            pegawaiJson.getString("last_name"),
-                            LocalDate.parse(pegawaiJson.getString("tanggal_lahir")),
-                            pegawaiJson.getString("no_hp"),
-                            pegawaiJson.getString("jekel"),
-                            pegawaiJson.getString("jabatan"),
-                            pegawaiJson.getString("id_gaji"),
-                            pegawaiJson.getString("username")
+                            dataJson.getString("id_pegawai"),
+                            dataJson.getString("first_name"),
+                            dataJson.getString("last_name"),
+                            LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                            dataJson.getString("no_hp"),
+                            dataJson.getString("jekel"),
+                            dataJson.getString("jabatan"),
+                            dataJson.getString("id_gaji"),
+                            dataJson.getString("username")
                     );
+                    String message = pegawaiJson.getString("message");
 
                     onListener.pegawaiResponse(pegawai);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -119,24 +125,27 @@ public class PegawaiDao {
                 isRequestFinished = true;
                 ArrayList<Pegawai> pegawaiList = new ArrayList<>();
                 try {
-                    JSONArray array = new JSONArray(response);
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject pegawaiJson = array.getJSONObject(i);
+                    JSONObject pegawaiJson = new JSONObject(response);
+                    JSONArray dataArray = pegawaiJson.getJSONArray("data");
+
+                    for (int i = 0; i < dataArray.length(); i++) {
+                        JSONObject dataJson = dataArray.getJSONObject(i);
                         pegawaiList.add(new Pegawai(
-                                pegawaiJson.getString("id_pegawai"),
-                                pegawaiJson.getString("first_name"),
-                                pegawaiJson.getString("last_name"),
-                                LocalDate.parse(pegawaiJson.getString("tanggal_lahir")),
-                                pegawaiJson.getString("no_hp"),
-                                pegawaiJson.getString("jekel"),
-                                pegawaiJson.getString("jabatan"),
-                                pegawaiJson.getString("id_gaji"),
-                                pegawaiJson.getString("username")
+                                dataJson.getString("id_pegawai"),
+                                dataJson.getString("first_name"),
+                                dataJson.getString("last_name"),
+                                LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                                dataJson.getString("no_hp"),
+                                dataJson.getString("jekel"),
+                                dataJson.getString("jabatan"),
+                                dataJson.getString("id_gaji"),
+                                dataJson.getString("username")
                         ));
                     }
+                    String message = pegawaiJson.getString("message");
 
                     onListener.pegawaiListResponse(pegawaiList);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -156,7 +165,14 @@ public class PegawaiDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject pegawaiJson = new JSONObject(response);
+                    String message = pegawaiJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.POST, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -186,7 +202,14 @@ public class PegawaiDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject pegawaiJson = new JSONObject(response);
+                    String message = pegawaiJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.POST, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -218,7 +241,14 @@ public class PegawaiDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject pegawaiJson = new JSONObject(response);
+                    String message = pegawaiJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.PUT, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -249,7 +279,14 @@ public class PegawaiDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject pegawaiJson = new JSONObject(response);
+                    String message = pegawaiJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.PUT, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -282,7 +319,14 @@ public class PegawaiDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject pegawaiJson = new JSONObject(response);
+                    String message = pegawaiJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.DELETE, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -305,7 +349,7 @@ public class PegawaiDao {
          */
         void pegawaiListResponse(ArrayList<Pegawai> pegawaiList);
 
-        void defaultResponse(String response);
+        void messageResponse(int method, String message);
 
         void errorResponse(VolleyError error);
     }

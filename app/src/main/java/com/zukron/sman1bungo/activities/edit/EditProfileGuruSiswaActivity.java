@@ -1,9 +1,7 @@
 package com.zukron.sman1bungo.activities.edit;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,12 +11,12 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.zukron.sman1bungo.DashboardActivity;
 import com.zukron.sman1bungo.R;
-import com.zukron.sman1bungo.fragment.ProfileFragment;
 import com.zukron.sman1bungo.model.Guru;
 import com.zukron.sman1bungo.model.Siswa;
 import com.zukron.sman1bungo.model.User;
@@ -204,10 +202,9 @@ public class EditProfileGuruSiswaActivity extends AppCompatActivity implements V
     }
 
     @Override
-    public void defaultResponse(String response) {
-        if (response.equals("Berhasil Ubah")) {
-            Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
-        }
+    public void messageResponse(int method, String message) {
+        if (method == Request.Method.PUT)
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

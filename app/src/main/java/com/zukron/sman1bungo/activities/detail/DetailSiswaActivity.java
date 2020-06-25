@@ -15,13 +15,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.zukron.sman1bungo.R;
@@ -30,16 +25,13 @@ import com.zukron.sman1bungo.fragment.tools.DatePickerFragment;
 import com.zukron.sman1bungo.model.Kelas;
 import com.zukron.sman1bungo.model.Siswa;
 import com.zukron.sman1bungo.model.dao.SiswaDao;
-import com.zukron.sman1bungo.util.api.SiswaEndpoint;
 
 import org.threeten.bp.LocalDate;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 public class DetailSiswaActivity extends AppCompatActivity implements View.OnClickListener, SiswaDao.onListener, DatePickerDialog.OnDateSetListener {
     private TextView tvTitleSiswaDetail;
@@ -245,9 +237,9 @@ public class DetailSiswaActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void defaultResponse(String response) {
-        moveToSiswaActivity();
-        Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
+    public void messageResponse(int method, String message) {
+        if (method == Request.Method.PUT || method == Request.Method.POST)
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

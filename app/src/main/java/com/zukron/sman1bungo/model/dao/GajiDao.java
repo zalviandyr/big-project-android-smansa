@@ -48,13 +48,16 @@ public class GajiDao {
                 isRequestFinished = true;
                 try {
                     JSONObject gajiJson = new JSONObject(response);
+                    JSONObject dataJson = gajiJson.getJSONObject("data");
+
                     Gaji gaji = new Gaji(
-                            gajiJson.getString("id_gaji"),
-                            gajiJson.getInt("gaji_pokok")
+                            dataJson.getString("id_gaji"),
+                            dataJson.getInt("gaji_pokok")
                     );
+                    String message = gajiJson.getString("message");
 
                     onListener.gajiResponse(gaji);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -76,17 +79,20 @@ public class GajiDao {
                 isRequestFinished = true;
                 ArrayList<Gaji> gajiList = new ArrayList<>();
                 try {
-                    JSONArray jsonArray = new JSONArray(response);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject gajiJson = jsonArray.getJSONObject(i);
+                    JSONObject gajiJson = new JSONObject(response);
+                    JSONArray gajiArray = gajiJson.getJSONArray("data");
+
+                    for (int i = 0; i < gajiArray.length(); i++) {
+                        JSONObject dataJson = gajiArray.getJSONObject(i);
                         gajiList.add(new Gaji(
-                                gajiJson.getString("id_gaji"),
-                                gajiJson.getInt("gaji_pokok")
+                                dataJson.getString("id_gaji"),
+                                dataJson.getInt("gaji_pokok")
                         ));
                     }
+                    String message = gajiJson.getString("message");
 
                     onListener.gajiListResponse(gajiList);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -106,7 +112,14 @@ public class GajiDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject gajiJson = new JSONObject(response);
+                    String message = gajiJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.POST, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -131,7 +144,14 @@ public class GajiDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject gajiJson = new JSONObject(response);
+                    String message = gajiJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.PUT, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -156,7 +176,14 @@ public class GajiDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject gajiJson = new JSONObject(response);
+                    String message = gajiJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.DELETE, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -179,7 +206,7 @@ public class GajiDao {
          */
         void gajiListResponse(ArrayList<Gaji> gajiList);
 
-        void defaultResponse(String response);
+        void messageResponse(int method, String message);
 
         void errorResponse(VolleyError error);
     }

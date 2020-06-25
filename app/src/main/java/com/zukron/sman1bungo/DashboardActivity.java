@@ -26,11 +26,9 @@ public class DashboardActivity extends AppCompatActivity implements BottomNaviga
     private BottomNavigationView btnvFooterButton;
 
     // TODO Clean Code
-    // TODO Admin, Pegawai, Guru dan siswa fragment dalam satu DashboardActivity
-    // TODO validate input
-    // TODO make a class to make a simple request to server
-    // TODO buat custom id diserver, jadi di android tidak ada custom id
     // TODO add check connection internet
+    // TODO setting foreign key ada yang perlu casced atau yang null saja
+    // TODO add bar untuk cari nama dan refresh list
 
     // TODO add this one to send twice request to server when connection is low
     // jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(

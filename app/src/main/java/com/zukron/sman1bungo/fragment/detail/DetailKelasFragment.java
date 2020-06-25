@@ -224,8 +224,9 @@ public class DetailKelasFragment extends DialogFragment implements View.OnClickL
     }
 
     @Override
-    public void defaultResponse(String response) {
-        Toast.makeText(getContext(), response, Toast.LENGTH_SHORT).show();
+    public void messageResponse(int method, String message) {
+        if (method == Request.Method.PUT || method == Request.Method.POST)
+            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

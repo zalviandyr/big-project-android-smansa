@@ -1,11 +1,9 @@
 package com.zukron.sman1bungo.activities;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -13,10 +11,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.zukron.sman1bungo.R;
-import com.zukron.sman1bungo.activities.detail.DetailAdministratorActivity;
+import com.zukron.sman1bungo.activities.detail.DetailAdminActivity;
 import com.zukron.sman1bungo.adapter.AdminAdapter;
 import com.zukron.sman1bungo.model.Admin;
 import com.zukron.sman1bungo.model.Gaji;
@@ -25,7 +24,7 @@ import com.zukron.sman1bungo.model.dao.GajiDao;
 
 import java.util.ArrayList;
 
-public class AdministratorActivity extends AppCompatActivity implements View.OnClickListener, AdminDao.onListener, GajiDao.onListener, AdminAdapter.onEditSelectedItem, AdminAdapter.onDeleteSelectedItem {
+public class AdminActivity extends AppCompatActivity implements View.OnClickListener, AdminDao.onListener, GajiDao.onListener, AdminAdapter.onEditSelectedItem, AdminAdapter.onDeleteSelectedItem {
     private AdminAdapter adminAdapter;
     private ListView lvListItem;
     private ArrayList<Gaji> gajiList;
@@ -47,7 +46,7 @@ public class AdministratorActivity extends AppCompatActivity implements View.OnC
         btnTambah.setText(R.string.tambah_administrator);
         btnTambah.setOnClickListener(this);
 
-        progressDialog = new ProgressDialog(AdministratorActivity.this);
+        progressDialog = new ProgressDialog(AdminActivity.this);
         progressDialog.setMessage("Tunggu ambil data");
         progressDialog.show();
 
@@ -71,7 +70,7 @@ public class AdministratorActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(AdministratorActivity.this, DetailAdministratorActivity.class);
+        Intent intent = new Intent(AdminActivity.this, DetailAdminActivity.class);
         intent.putExtra("action", "add");
         intent.putParcelableArrayListExtra("gajiList", gajiList);
         // menyelesaikan PegawaiActivity yang menyimpan list data lama
@@ -90,6 +89,7 @@ public class AdministratorActivity extends AppCompatActivity implements View.OnC
         this.gajiList = gajiList;
     }
 
+
     @Override
     public void adminResponse(Admin admin) {
 
@@ -106,8 +106,9 @@ public class AdministratorActivity extends AppCompatActivity implements View.OnC
     }
 
     @Override
-    public void defaultResponse(String response) {
-        // no need
+    public void messageResponse(int method, String message) {
+        if (method == Request.Method.DELETE)
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -117,7 +118,7 @@ public class AdministratorActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onEditSelected(Admin admin) {
-        Intent intent = new Intent(AdministratorActivity.this, DetailAdministratorActivity.class);
+        Intent intent = new Intent(AdminActivity.this, DetailAdminActivity.class);
         intent.putExtra("action", "edit");
         intent.putExtra("admin", admin);
         intent.putParcelableArrayListExtra("gajiList", gajiList);
@@ -144,7 +145,6 @@ public class AdministratorActivity extends AppCompatActivity implements View.OnC
             private void deleteData(Admin admin) {
                 adminDao.delete(admin.getIdAdmin());
                 reloadActivity();
-                Toast.makeText(AdministratorActivity.this, "Berhasil hapus", Toast.LENGTH_SHORT).show();
             }
 
             /***

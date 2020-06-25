@@ -49,24 +49,27 @@ public class GuruDao {
                 isRequestFinished = true;
                 try {
                     JSONObject guruJson = new JSONObject(response);
+                    JSONObject dataJson = guruJson.getJSONObject("data");
+
                     Guru guru = new Guru(
-                            guruJson.getString("nip"),
-                            guruJson.getString("first_name"),
-                            guruJson.getString("last_name"),
-                            guruJson.getString("email"),
-                            guruJson.getString("no_hp"),
-                            guruJson.getString("jekel"),
-                            LocalDate.parse(guruJson.getString("tanggal_lahir")),
-                            guruJson.getString("provinsi_lahir"),
-                            guruJson.getString("kota_lahir"),
-                            guruJson.getString("golongan"),
-                            guruJson.getString("id_pelajaran"),
-                            guruJson.getString("username"),
-                            guruJson.getString("id_gaji")
+                            dataJson.getString("nip"),
+                            dataJson.getString("first_name"),
+                            dataJson.getString("last_name"),
+                            dataJson.getString("email"),
+                            dataJson.getString("no_hp"),
+                            dataJson.getString("jekel"),
+                            LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                            dataJson.getString("provinsi_lahir"),
+                            dataJson.getString("kota_lahir"),
+                            dataJson.getString("golongan"),
+                            dataJson.getString("id_pelajaran"),
+                            dataJson.getString("username"),
+                            dataJson.getString("id_gaji")
                     );
+                    String message = guruJson.getString("message");
 
                     onListener.guruResponse(guru);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -88,24 +91,27 @@ public class GuruDao {
                 isRequestFinished = true;
                 try {
                     JSONObject guruJson = new JSONObject(response);
+                    JSONObject dataJson = guruJson.getJSONObject("data");
+
                     Guru guru = new Guru(
-                            guruJson.getString("nip"),
-                            guruJson.getString("first_name"),
-                            guruJson.getString("last_name"),
-                            guruJson.getString("email"),
-                            guruJson.getString("no_hp"),
-                            guruJson.getString("jekel"),
-                            LocalDate.parse(guruJson.getString("tanggal_lahir")),
-                            guruJson.getString("provinsi_lahir"),
-                            guruJson.getString("kota_lahir"),
-                            guruJson.getString("golongan"),
-                            guruJson.getString("id_pelajaran"),
-                            guruJson.getString("username"),
-                            guruJson.getString("id_gaji")
+                            dataJson.getString("nip"),
+                            dataJson.getString("first_name"),
+                            dataJson.getString("last_name"),
+                            dataJson.getString("email"),
+                            dataJson.getString("no_hp"),
+                            dataJson.getString("jekel"),
+                            LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                            dataJson.getString("provinsi_lahir"),
+                            dataJson.getString("kota_lahir"),
+                            dataJson.getString("golongan"),
+                            dataJson.getString("id_pelajaran"),
+                            dataJson.getString("username"),
+                            dataJson.getString("id_gaji")
                     );
+                    String message = guruJson.getString("message");
 
                     onListener.guruResponse(guru);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -127,28 +133,31 @@ public class GuruDao {
                 isRequestFinished = true;
                 ArrayList<Guru> guruList = new ArrayList<>();
                 try {
-                    JSONArray array = new JSONArray(response);
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject guruJson = array.getJSONObject(i);
+                    JSONObject guruJson = new JSONObject(response);
+                    JSONArray dataArray = guruJson.getJSONArray("data");
+
+                    for (int i = 0; i < dataArray.length(); i++) {
+                        JSONObject dataJson = dataArray.getJSONObject(i);
                         guruList.add(new Guru(
-                                guruJson.getString("nip"),
-                                guruJson.getString("first_name"),
-                                guruJson.getString("last_name"),
-                                guruJson.getString("email"),
-                                guruJson.getString("no_hp"),
-                                guruJson.getString("jekel"),
-                                LocalDate.parse(guruJson.getString("tanggal_lahir")),
-                                guruJson.getString("provinsi_lahir"),
-                                guruJson.getString("kota_lahir"),
-                                guruJson.getString("golongan"),
-                                guruJson.getString("id_pelajaran"),
-                                guruJson.getString("username"),
-                                guruJson.getString("id_gaji")
+                                dataJson.getString("nip"),
+                                dataJson.getString("first_name"),
+                                dataJson.getString("last_name"),
+                                dataJson.getString("email"),
+                                dataJson.getString("no_hp"),
+                                dataJson.getString("jekel"),
+                                LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                                dataJson.getString("provinsi_lahir"),
+                                dataJson.getString("kota_lahir"),
+                                dataJson.getString("golongan"),
+                                dataJson.getString("id_pelajaran"),
+                                dataJson.getString("username"),
+                                dataJson.getString("id_gaji")
                         ));
                     }
+                    String message = guruJson.getString("message");
 
                     onListener.guruListResponse(guruList);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -168,7 +177,14 @@ public class GuruDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject guruJson = new JSONObject(response);
+                    String message = guruJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.POST, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -200,7 +216,14 @@ public class GuruDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject guruJson = new JSONObject(response);
+                    String message = guruJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.POST, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -237,7 +260,14 @@ public class GuruDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject guruJson = new JSONObject(response);
+                    String message = guruJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.PUT, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -268,7 +298,14 @@ public class GuruDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject guruJson = new JSONObject(response);
+                    String message = guruJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.PUT, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -303,7 +340,14 @@ public class GuruDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject guruJson = new JSONObject(response);
+                    String message = guruJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.DELETE, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -326,7 +370,7 @@ public class GuruDao {
          */
         void guruListResponse(ArrayList<Guru> guruList);
 
-        void defaultResponse(String response);
+        void messageResponse(int method, String message);
 
         void errorResponse(VolleyError error);
     }

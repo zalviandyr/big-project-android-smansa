@@ -10,7 +10,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.zukron.sman1bungo.model.Pegawai;
 import com.zukron.sman1bungo.model.Siswa;
 import com.zukron.sman1bungo.util.api.SiswaEndpoint;
 
@@ -50,22 +49,25 @@ public class SiswaDao {
                 isRequestFinished = true;
                 try {
                     JSONObject siswaJson = new JSONObject(response);
+                    JSONObject dataJson = siswaJson.getJSONObject("data");
+
                     Siswa siswa = new Siswa(
-                            siswaJson.getString("nisn"),
-                            siswaJson.getString("first_name"),
-                            siswaJson.getString("last_name"),
-                            siswaJson.getString("jekel"),
-                            siswaJson.getString("email"),
-                            siswaJson.getString("no_hp"),
-                            LocalDate.parse(siswaJson.getString("tanggal_lahir")),
-                            siswaJson.getString("kota_lahir"),
-                            siswaJson.getString("provinsi_lahir"),
-                            siswaJson.getString("id_kelas"),
-                            siswaJson.getString("username")
+                            dataJson.getString("nisn"),
+                            dataJson.getString("first_name"),
+                            dataJson.getString("last_name"),
+                            dataJson.getString("jekel"),
+                            dataJson.getString("email"),
+                            dataJson.getString("no_hp"),
+                            LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                            dataJson.getString("kota_lahir"),
+                            dataJson.getString("provinsi_lahir"),
+                            dataJson.getString("id_kelas"),
+                            dataJson.getString("username")
                     );
+                    String message = siswaJson.getString("message");
 
                     onListener.siswaResponse(siswa);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -87,22 +89,25 @@ public class SiswaDao {
                 isRequestFinished = true;
                 try {
                     JSONObject siswaJson = new JSONObject(response);
+                    JSONObject dataJson = siswaJson.getJSONObject("data");
+
                     Siswa siswa = new Siswa(
-                            siswaJson.getString("nisn"),
-                            siswaJson.getString("first_name"),
-                            siswaJson.getString("last_name"),
-                            siswaJson.getString("jekel"),
-                            siswaJson.getString("email"),
-                            siswaJson.getString("no_hp"),
-                            LocalDate.parse(siswaJson.getString("tanggal_lahir")),
-                            siswaJson.getString("kota_lahir"),
-                            siswaJson.getString("provinsi_lahir"),
-                            siswaJson.getString("id_kelas"),
-                            siswaJson.getString("username")
+                            dataJson.getString("nisn"),
+                            dataJson.getString("first_name"),
+                            dataJson.getString("last_name"),
+                            dataJson.getString("jekel"),
+                            dataJson.getString("email"),
+                            dataJson.getString("no_hp"),
+                            LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                            dataJson.getString("kota_lahir"),
+                            dataJson.getString("provinsi_lahir"),
+                            dataJson.getString("id_kelas"),
+                            dataJson.getString("username")
                     );
+                    String message = siswaJson.getString("message");
 
                     onListener.siswaResponse(siswa);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -124,26 +129,29 @@ public class SiswaDao {
                 isRequestFinished = true;
                 ArrayList<Siswa> siswaList = new ArrayList<>();
                 try {
-                    JSONArray array = new JSONArray(response);
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject siswaJson = array.getJSONObject(i);
+                    JSONObject siswaJson = new JSONObject(response);
+                    JSONArray dataArray = siswaJson.getJSONArray("data");
+
+                    for (int i = 0; i < dataArray.length(); i++) {
+                        JSONObject dataJson = dataArray.getJSONObject(i);
                         siswaList.add(new Siswa(
-                                siswaJson.getString("nisn"),
-                                siswaJson.getString("first_name"),
-                                siswaJson.getString("last_name"),
-                                siswaJson.getString("jekel"),
-                                siswaJson.getString("email"),
-                                siswaJson.getString("no_hp"),
-                                LocalDate.parse(siswaJson.getString("tanggal_lahir")),
-                                siswaJson.getString("kota_lahir"),
-                                siswaJson.getString("provinsi_lahir"),
-                                siswaJson.getString("id_kelas"),
-                                siswaJson.getString("username")
+                                dataJson.getString("nisn"),
+                                dataJson.getString("first_name"),
+                                dataJson.getString("last_name"),
+                                dataJson.getString("jekel"),
+                                dataJson.getString("email"),
+                                dataJson.getString("no_hp"),
+                                LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                                dataJson.getString("kota_lahir"),
+                                dataJson.getString("provinsi_lahir"),
+                                dataJson.getString("id_kelas"),
+                                dataJson.getString("username")
                         ));
                     }
+                    String message = siswaJson.getString("message");
 
                     onListener.siswaListResponse(siswaList);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -163,7 +171,14 @@ public class SiswaDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject siswaJson = new JSONObject(response);
+                    String message = siswaJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.POST, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -193,7 +208,14 @@ public class SiswaDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject siswaJson = new JSONObject(response);
+                    String message = siswaJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.POST, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -228,7 +250,14 @@ public class SiswaDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject siswaJson = new JSONObject(response);
+                    String message = siswaJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.PUT, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -258,7 +287,14 @@ public class SiswaDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject siswaJson = new JSONObject(response);
+                    String message = siswaJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.PUT, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -293,7 +329,14 @@ public class SiswaDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject siswaJson = new JSONObject(response);
+                    String message = siswaJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.DELETE, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -316,7 +359,7 @@ public class SiswaDao {
          */
         void siswaListResponse(ArrayList<Siswa> siswaList);
 
-        void defaultResponse(String response);
+        void messageResponse(int method, String message);
 
         void errorResponse(VolleyError error);
     }

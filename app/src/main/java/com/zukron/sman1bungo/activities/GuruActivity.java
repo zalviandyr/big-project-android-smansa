@@ -2,7 +2,6 @@ package com.zukron.sman1bungo.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +11,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.zukron.sman1bungo.R;
@@ -129,7 +129,6 @@ public class GuruActivity extends AppCompatActivity implements View.OnClickListe
              */
             private void deleteData(Guru guru) {
                 guruDao.delete(guru.getNip());
-                Toast.makeText(GuruActivity.this, "Berhasil hapus", Toast.LENGTH_SHORT).show();
                 reloadActivity();
             }
 
@@ -173,6 +172,12 @@ public class GuruActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public void messageResponse(int method, String message) {
+        if (method == Request.Method.DELETE)
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void pelajaranResponse(Pelajaran pelajaran) {
         // no need
     }
@@ -180,11 +185,6 @@ public class GuruActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void pelajaranListResponse(ArrayList<Pelajaran> pelajaranList) {
         this.pelajaranList = pelajaranList;
-    }
-
-    @Override
-    public void defaultResponse(String response) {
-        // no need
     }
 
     @Override

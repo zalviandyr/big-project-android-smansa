@@ -3,7 +3,6 @@ package com.zukron.sman1bungo.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -13,11 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.zukron.sman1bungo.R;
 import com.zukron.sman1bungo.adapter.KelasAdapter;
@@ -26,13 +21,6 @@ import com.zukron.sman1bungo.model.Guru;
 import com.zukron.sman1bungo.model.Kelas;
 import com.zukron.sman1bungo.model.dao.GuruDao;
 import com.zukron.sman1bungo.model.dao.KelasDao;
-import com.zukron.sman1bungo.util.api.GuruEndpoint;
-import com.zukron.sman1bungo.util.api.KelasEndpoint;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.threeten.bp.LocalDate;
 
 import java.util.ArrayList;
 
@@ -119,7 +107,6 @@ public class KelasActivity extends AppCompatActivity implements View.OnClickList
              */
             private void deleteData(Kelas kelas) {
                 kelasDao.delete(kelas.getIdKelas());
-                Toast.makeText(KelasActivity.this, "Berhasil hapus", Toast.LENGTH_SHORT).show();
                 reloadActivity();
             }
 
@@ -163,8 +150,9 @@ public class KelasActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void defaultResponse(String response) {
-        // no need
+    public void messageResponse(int method, String message) {
+        if (method == Request.Method.DELETE)
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -46,17 +46,20 @@ public class SekolahDao {
                 isRequestFinished = true;
                 try {
                     JSONObject sekolahJson = new JSONObject(response);
+                    JSONObject dataJson = sekolahJson.getJSONObject("data");
+
                     Sekolah sekolah = new Sekolah(
-                            sekolahJson.getString("nama"),
-                            sekolahJson.getString("alamat"),
-                            sekolahJson.getString("kota"),
-                            sekolahJson.getString("provinsi"),
-                            sekolahJson.getDouble("longitude"),
-                            sekolahJson.getDouble("latitude")
+                            dataJson.getString("nama"),
+                            dataJson.getString("alamat"),
+                            dataJson.getString("kota"),
+                            dataJson.getString("provinsi"),
+                            dataJson.getDouble("longitude"),
+                            dataJson.getDouble("latitude")
                     );
+                    String message = sekolahJson.getString("message");
 
                     onListener.sekolahResponse(sekolah);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -76,7 +79,14 @@ public class SekolahDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject sekolahJson = new JSONObject(response);
+                    String message = sekolahJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.POST, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -107,7 +117,14 @@ public class SekolahDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject sekolahJson = new JSONObject(response);
+                    String message = sekolahJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.PUT, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -139,7 +156,7 @@ public class SekolahDao {
          */
         void sekolahResponse(Sekolah sekolah);
 
-        void defaultResponse(String response);
+        void messageResponse(int method, String message);
 
         void errorResponse(VolleyError error);
     }

@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -178,8 +179,9 @@ public class DetailGajiFragment extends DialogFragment implements View.OnClickLi
     }
 
     @Override
-    public void defaultResponse(String response) {
-        Toast.makeText(getContext(), response, Toast.LENGTH_SHORT).show();
+    public void messageResponse(int method, String message) {
+        if (method == Request.Method.PUT || method == Request.Method.POST)
+            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -167,6 +167,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     }
 
     @Override
+    public void defaultResponse(String response) {
+
+    }
+
+    @Override
     public void guruResponse(Guru guru) {
         String username = inputUsernameRegister.getText().toString().trim();
         String password = Tools.toMd5(inputPasswordRegister.getText().toString().trim());
@@ -223,8 +228,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     }
 
     @Override
-    public void defaultResponse(String response) {
-        if (response.equals("Berhasil Register")) {
+    public void messageResponse(int method, String message) {
+        if (message.equals("Berhasil Register")) {
             progressDialog.dismiss();
             moveToLoginActivity();
             Toast.makeText(getContext(), "Berhasil Register", Toast.LENGTH_SHORT).show();

@@ -62,7 +62,7 @@ public class AboutSchoolActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void defaultResponse(String response) {
+    public void messageResponse(int method, String message) {
         // no need
     }
 

@@ -2,7 +2,6 @@ package com.zukron.sman1bungo.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +11,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.zukron.sman1bungo.R;
@@ -113,7 +113,6 @@ public class SiswaActivity extends AppCompatActivity implements View.OnClickList
             private void deleteData(Siswa siswa) {
                 siswaDao.delete(siswa.getNisn());
                 reloadActivity();
-                Toast.makeText(SiswaActivity.this, "Berhasil hapus", Toast.LENGTH_SHORT).show();
             }
 
             /***
@@ -156,8 +155,9 @@ public class SiswaActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void defaultResponse(String response) {
-        // no need
+    public void messageResponse(int method, String message) {
+        if (method == Request.Method.DELETE)
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

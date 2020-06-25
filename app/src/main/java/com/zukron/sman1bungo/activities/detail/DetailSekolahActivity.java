@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -180,8 +183,9 @@ public class DetailSekolahActivity extends AppCompatActivity implements View.OnC
     }
 
     @Override
-    public void defaultResponse(String response) {
-        // no need
+    public void messageResponse(int method, String message) {
+        if (method == Request.Method.PUT || method == Request.Method.POST)
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

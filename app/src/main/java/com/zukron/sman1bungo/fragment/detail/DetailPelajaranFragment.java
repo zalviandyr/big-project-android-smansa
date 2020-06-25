@@ -15,25 +15,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.zukron.sman1bungo.R;
 import com.zukron.sman1bungo.activities.PelajaranActivity;
 import com.zukron.sman1bungo.model.Pelajaran;
 import com.zukron.sman1bungo.model.dao.PelajaranDao;
-import com.zukron.sman1bungo.util.Tools;
-import com.zukron.sman1bungo.util.api.PelajaranEndpoint;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class DetailPelajaranFragment extends DialogFragment implements View.OnClickListener, PelajaranDao.onListener {
     private TextInputLayout inputLayoutNamaPelajaranDetail;
@@ -187,8 +178,9 @@ public class DetailPelajaranFragment extends DialogFragment implements View.OnCl
     }
 
     @Override
-    public void defaultResponse(String response) {
-        Toast.makeText(getContext(), response, Toast.LENGTH_SHORT).show();
+    public void messageResponse(int method, String message) {
+        if (method == Request.Method.PUT || method == Request.Method.POST)
+            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -152,8 +153,9 @@ public class DetailSekolahMapsActivity extends AppCompatActivity implements Seko
     }
 
     @Override
-    public void defaultResponse(String response) {
-        Toast.makeText(DetailSekolahMapsActivity.this, response, Toast.LENGTH_SHORT).show();
+    public void messageResponse(int method, String message) {
+        if (method == Request.Method.PUT)
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

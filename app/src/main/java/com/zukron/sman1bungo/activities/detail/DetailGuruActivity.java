@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -297,8 +298,9 @@ public class DetailGuruActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
-    public void defaultResponse(String response) {
-        Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
+    public void messageResponse(int method, String message) {
+        if (method == Request.Method.PUT || method == Request.Method.POST)
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

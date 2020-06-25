@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.zukron.sman1bungo.R;
@@ -86,7 +87,6 @@ public class GajiActivity extends AppCompatActivity implements View.OnClickListe
             private void deleteData(Gaji gaji) {
                 gajiDao.delete(gaji.getIdGaji());
                 if (gajiDao.isRequestFinished()) {
-                    Toast.makeText(GajiActivity.this, "Berhasil Hapus", Toast.LENGTH_SHORT).show();
                     reloadActivity();
                 }
             }
@@ -124,8 +124,9 @@ public class GajiActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void defaultResponse(String response) {
-
+    public void messageResponse(int method, String message) {
+        if (method == Request.Method.DELETE)
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

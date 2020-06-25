@@ -15,11 +15,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.zukron.sman1bungo.R;
-import com.zukron.sman1bungo.activities.AdministratorActivity;
+import com.zukron.sman1bungo.activities.AdminActivity;
 import com.zukron.sman1bungo.fragment.tools.DatePickerFragment;
 import com.zukron.sman1bungo.model.Gaji;
 import com.zukron.sman1bungo.model.Admin;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class DetailAdministratorActivity extends AppCompatActivity implements View.OnClickListener, AdminDao.onListener, DatePickerDialog.OnDateSetListener {
+public class DetailAdminActivity extends AppCompatActivity implements View.OnClickListener, AdminDao.onListener, DatePickerDialog.OnDateSetListener {
     private TextView tvTitleAdminDetail;
     private TextInputLayout inputLayoutIdAdminDetail, inputLayoutFirstNameAdminDetail, inputLayoutLastNameAdminDetail;
     private TextInputEditText inputIdAdminDetail, inputFirstNameAdminDetail, inputLastNameAdminDetail;
@@ -48,7 +49,7 @@ public class DetailAdministratorActivity extends AppCompatActivity implements Vi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_administrator);
+        setContentView(R.layout.activity_detail_admin);
 
         adminDao = new AdminDao(this, this);
 
@@ -181,7 +182,7 @@ public class DetailAdministratorActivity extends AppCompatActivity implements Vi
 
     private void moveToAdministratorActivity() {
         // membuat AdminActivity baru dengan list data yang telah diupdate
-        Intent intent = new Intent(DetailAdministratorActivity.this, AdministratorActivity.class);
+        Intent intent = new Intent(DetailAdminActivity.this, AdminActivity.class);
         // menyelesaikan DetailAdminActivty agar user tidak bisa kembali ke DetailAdminActivty menggunakan tombol back
         finish();
         startActivity(intent);
@@ -222,7 +223,7 @@ public class DetailAdministratorActivity extends AppCompatActivity implements Vi
         }
 
         if (btnTanggalLahirAdminDetail.getText().toString().equals("Tanggal")) {
-            Toast.makeText(DetailAdministratorActivity.this, "Pilih tanggal", Toast.LENGTH_LONG).show();
+            Toast.makeText(DetailAdminActivity.this, "Pilih tanggal", Toast.LENGTH_LONG).show();
             valid = false;
         }
 
@@ -240,8 +241,9 @@ public class DetailAdministratorActivity extends AppCompatActivity implements Vi
     }
 
     @Override
-    public void defaultResponse(String response) {
-        Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
+    public void messageResponse(int method, String message) {
+        if (method == Request.Method.PUT || method == Request.Method.POST)
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

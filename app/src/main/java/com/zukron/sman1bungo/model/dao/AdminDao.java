@@ -49,19 +49,22 @@ public class AdminDao {
                 isRequestFinished = true;
                 try {
                     JSONObject adminJson = new JSONObject(response);
+                    JSONObject dataJson = adminJson.getJSONObject("data");
+
                     Admin admin = new Admin(
-                            adminJson.getString("id_admin"),
-                            adminJson.getString("first_name"),
-                            adminJson.getString("last_name"),
-                            LocalDate.parse(adminJson.getString("tanggal_lahir")),
-                            adminJson.getString("no_hp"),
-                            adminJson.getString("jekel"),
-                            adminJson.getString("id_gaji"),
-                            adminJson.getString("username")
+                            dataJson.getString("id_admin"),
+                            dataJson.getString("first_name"),
+                            dataJson.getString("last_name"),
+                            LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                            dataJson.getString("no_hp"),
+                            dataJson.getString("jekel"),
+                            dataJson.getString("id_gaji"),
+                            dataJson.getString("username")
                     );
+                    String message = adminJson.getString("message");
 
                     onListener.adminResponse(admin);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -83,19 +86,22 @@ public class AdminDao {
                 isRequestFinished = true;
                 try {
                     JSONObject adminJson = new JSONObject(response);
+                    JSONObject dataJson = adminJson.getJSONObject("data");
+
                     Admin admin = new Admin(
-                            adminJson.getString("id_admin"),
-                            adminJson.getString("first_name"),
-                            adminJson.getString("last_name"),
-                            LocalDate.parse(adminJson.getString("tanggal_lahir")),
-                            adminJson.getString("no_hp"),
-                            adminJson.getString("jekel"),
-                            adminJson.getString("id_gaji"),
-                            adminJson.getString("username")
+                            dataJson.getString("id_admin"),
+                            dataJson.getString("first_name"),
+                            dataJson.getString("last_name"),
+                            LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                            dataJson.getString("no_hp"),
+                            dataJson.getString("jekel"),
+                            dataJson.getString("id_gaji"),
+                            dataJson.getString("username")
                     );
+                    String message = adminJson.getString("message");
 
                     onListener.adminResponse(admin);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -117,23 +123,26 @@ public class AdminDao {
                 isRequestFinished = true;
                 ArrayList<Admin> adminList = new ArrayList<>();
                 try {
-                    JSONArray array = new JSONArray(response);
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject adminJson = array.getJSONObject(i);
+                    JSONObject adminJson = new JSONObject(response);
+                    JSONArray dataArray = adminJson.getJSONArray("data");
+
+                    for (int i = 0; i < dataArray.length(); i++) {
+                        JSONObject dataJson = dataArray.getJSONObject(i);
                         adminList.add(new Admin(
-                                adminJson.getString("id_admin"),
-                                adminJson.getString("first_name"),
-                                adminJson.getString("last_name"),
-                                LocalDate.parse(adminJson.getString("tanggal_lahir")),
-                                adminJson.getString("no_hp"),
-                                adminJson.getString("jekel"),
-                                adminJson.getString("id_gaji"),
-                                adminJson.getString("username")
+                                dataJson.getString("id_admin"),
+                                dataJson.getString("first_name"),
+                                dataJson.getString("last_name"),
+                                LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                                dataJson.getString("no_hp"),
+                                dataJson.getString("jekel"),
+                                dataJson.getString("id_gaji"),
+                                dataJson.getString("username")
                         ));
                     }
+                    String message = adminJson.getString("message");
 
                     onListener.adminListResponse(adminList);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -153,7 +162,14 @@ public class AdminDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject adminJson = new JSONObject(response);
+                    String message = adminJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.POST, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -182,7 +198,14 @@ public class AdminDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject adminJson = new JSONObject(response);
+                    String message = adminJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.POST, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -213,7 +236,14 @@ public class AdminDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject adminJson = new JSONObject(response);
+                    String message = adminJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.PUT, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -243,7 +273,14 @@ public class AdminDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject adminJson = new JSONObject(response);
+                    String message = adminJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.PUT, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -275,7 +312,14 @@ public class AdminDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject adminJson = new JSONObject(response);
+                    String message = adminJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.DELETE, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -298,7 +342,7 @@ public class AdminDao {
          */
         void adminListResponse(ArrayList<Admin> adminList);
 
-        void defaultResponse(String response);
+        void messageResponse(int method, String message);
 
         void errorResponse(VolleyError error);
     }

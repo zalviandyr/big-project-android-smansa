@@ -265,7 +265,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
     }
 
     @Override
-    public void defaultResponse(String response) {
+    public void messageResponse(int method, String message) {
         // no need
     }
 

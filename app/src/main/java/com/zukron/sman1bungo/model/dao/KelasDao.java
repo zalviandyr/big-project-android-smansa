@@ -11,7 +11,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.zukron.sman1bungo.model.Kelas;
-import com.zukron.sman1bungo.model.Pelajaran;
 import com.zukron.sman1bungo.util.api.KelasEndpoint;
 
 import org.json.JSONArray;
@@ -49,14 +48,17 @@ public class KelasDao {
                 isRequestFinished = true;
                 try {
                     JSONObject kelasJson = new JSONObject(response);
+                    JSONObject dataJson = kelasJson.getJSONObject("data");
+
                     Kelas kelas = new Kelas(
-                            kelasJson.getString("id_kelas"),
-                            kelasJson.getString("nama"),
-                            kelasJson.getString("wali_kelas")
+                            dataJson.getString("id_kelas"),
+                            dataJson.getString("nama"),
+                            dataJson.getString("wali_kelas")
                     );
 
+                    String message = kelasJson.getString("message");
                     onListener.kelasResponse(kelas);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -78,18 +80,21 @@ public class KelasDao {
                 isRequestFinished = true;
                 ArrayList<Kelas> kelasList = new ArrayList<>();
                 try {
-                    JSONArray jsonArray = new JSONArray(response);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject kelasJson = jsonArray.getJSONObject(i);
+                    JSONObject kelasJson = new JSONObject(response);
+                    JSONArray dataArray = kelasJson.getJSONArray("data");
+
+                    for (int i = 0; i < dataArray.length(); i++) {
+                        JSONObject datasJson = dataArray.getJSONObject(i);
                         kelasList.add(new Kelas(
-                                kelasJson.getString("id_kelas"),
-                                kelasJson.getString("nama"),
-                                kelasJson.getString("wali_kelas")
+                                datasJson.getString("id_kelas"),
+                                datasJson.getString("nama"),
+                                datasJson.getString("wali_kelas")
                         ));
                     }
 
+                    String message = kelasJson.getString("message");
                     onListener.kelasListResponse(kelasList);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -109,7 +114,14 @@ public class KelasDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject kelasJson = new JSONObject(response);
+                    String message = kelasJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.POST, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -135,7 +147,14 @@ public class KelasDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject kelasJson = new JSONObject(response);
+                    String message = kelasJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.PUT, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -161,7 +180,14 @@ public class KelasDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject kelasJson = new JSONObject(response);
+                    String message = kelasJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.DELETE, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -184,7 +210,7 @@ public class KelasDao {
          */
         void kelasListResponse(ArrayList<Kelas> kelasList);
 
-        void defaultResponse(String response);
+        void messageResponse(int method, String message);
 
         void errorResponse(VolleyError error);
     }

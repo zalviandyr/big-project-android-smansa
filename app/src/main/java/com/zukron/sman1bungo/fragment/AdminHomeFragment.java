@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.zukron.sman1bungo.R;
-import com.zukron.sman1bungo.activities.AdministratorActivity;
+import com.zukron.sman1bungo.activities.AdminActivity;
 import com.zukron.sman1bungo.activities.GajiActivity;
 import com.zukron.sman1bungo.activities.GuruActivity;
 import com.zukron.sman1bungo.activities.KelasActivity;
@@ -107,7 +107,7 @@ public class AdminHomeFragment extends Fragment implements View.OnClickListener,
                 startActivity(kelasIntent);
                 break;
             case R.id.cv_administrator_admin_home:
-                Intent administratorIntent = new Intent(getContext(), AdministratorActivity.class);
+                Intent administratorIntent = new Intent(getContext(), AdminActivity.class);
                 startActivity(administratorIntent);
                 break;
             case R.id.cv_guru_admin_home:
@@ -140,7 +140,7 @@ public class AdminHomeFragment extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public void defaultResponse(String response) {
+    public void messageResponse(int method, String message) {
         // no need
     }
 

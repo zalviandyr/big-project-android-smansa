@@ -111,7 +111,7 @@ public class SiswaHomeFragment extends Fragment implements SiswaDao.onListener, 
     }
 
     @Override
-    public void defaultResponse(String response) {
+    public void messageResponse(int method, String message) {
         // no need
     }
 

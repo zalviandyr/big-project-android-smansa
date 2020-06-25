@@ -13,6 +13,7 @@ import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -223,10 +224,9 @@ public class EditProfileAdminPegawaiActivity extends AppCompatActivity implement
     }
 
     @Override
-    public void defaultResponse(String response) {
-        if (response.equals("Berhasil Ubah")) {
-            Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
-        }
+    public void messageResponse(int method, String message) {
+        if (method == Request.Method.PUT)
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

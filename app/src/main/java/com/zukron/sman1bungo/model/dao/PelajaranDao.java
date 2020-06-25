@@ -48,13 +48,17 @@ public class PelajaranDao {
                 isRequestFinished = true;
                 try {
                     JSONObject pelajaranJson = new JSONObject(response);
+                    JSONObject dataJson = pelajaranJson.getJSONObject("data");
+
                     Pelajaran pelajaran = new Pelajaran(
-                            pelajaranJson.getString("id_pelajaran"),
-                            pelajaranJson.getString("nama")
+                            dataJson.getString("id_pelajaran"),
+                            dataJson.getString("nama")
                     );
 
+                    String message = pelajaranJson.getString("message");
+
                     onListener.pelajaranResponse(pelajaran);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -76,17 +80,20 @@ public class PelajaranDao {
                 isRequestFinished = true;
                 ArrayList<Pelajaran> pelajaranList = new ArrayList<>();
                 try {
-                    JSONArray jsonArray = new JSONArray(response);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject pelajaranJson = jsonArray.getJSONObject(i);
+                    JSONObject pelajaranJson = new JSONObject(response);
+                    JSONArray dataArray = pelajaranJson.getJSONArray("data");
+
+                    for (int i = 0; i < dataArray.length(); i++) {
+                        JSONObject datasJson = dataArray.getJSONObject(i);
                         pelajaranList.add(new Pelajaran(
-                                pelajaranJson.getString("id_pelajaran"),
-                                pelajaranJson.getString("nama")
+                                datasJson.getString("id_pelajaran"),
+                                datasJson.getString("nama")
                         ));
                     }
+                    String message = pelajaranJson.getString("message");
 
                     onListener.pelajaranListResponse(pelajaranList);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -106,7 +113,14 @@ public class PelajaranDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject pelajaranJson = new JSONObject(response);
+                    String message = pelajaranJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.POST, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -131,7 +145,14 @@ public class PelajaranDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject pelajaranJson = new JSONObject(response);
+                    String message = pelajaranJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.PUT, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -152,11 +173,18 @@ public class PelajaranDao {
     }
 
     public void delete(String idPelajaran) {
-        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, PelajaranEndpoint.delete(idPelajaran), new Response.Listener<String>() {
+        final StringRequest stringRequest = new StringRequest(Request.Method.DELETE, PelajaranEndpoint.delete(idPelajaran), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject pelajaranJson = new JSONObject(response);
+                    String message = pelajaranJson.getString("message");
+
+                    onListener.messageResponse(Request.Method.DELETE, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -179,7 +207,7 @@ public class PelajaranDao {
          */
         void pelajaranListResponse(ArrayList<Pelajaran> pelajaranList);
 
-        void defaultResponse(String response);
+        void messageResponse(int method, String message);
 
         void errorResponse(VolleyError error);
     }
