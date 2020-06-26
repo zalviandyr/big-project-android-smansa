@@ -64,7 +64,6 @@ public class EditEmailAndNoHpActivity extends AppCompatActivity implements View.
     public void onClick(View v) {
         if (validateInput()) {
             sendData();
-            reloadActivity();
         }
     }
 
@@ -170,8 +169,10 @@ public class EditEmailAndNoHpActivity extends AppCompatActivity implements View.
 
     @Override
     public void messageResponse(int method, String message) {
-        if (method == Request.Method.PUT)
+        if (method == Request.Method.PUT) {
+            reloadActivity();
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

@@ -66,7 +66,6 @@ public class EditNoHpActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         if (validateInput()) {
             sendData();
-            reloadActivity();
         }
     }
 
@@ -147,8 +146,10 @@ public class EditNoHpActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void messageResponse(int method, String message) {
-        if (method == Request.Method.PUT)
+        if (method == Request.Method.PUT) {
+            reloadActivity();
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

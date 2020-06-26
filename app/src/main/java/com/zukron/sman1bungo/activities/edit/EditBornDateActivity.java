@@ -100,7 +100,6 @@ public class EditBornDateActivity extends AppCompatActivity implements View.OnCl
             case R.id.btn_ok_edit_born_date:
                 if (validateInput()) {
                     sendData();
-                    reloadActivity();
                 }
                 break;
         }
@@ -194,8 +193,10 @@ public class EditBornDateActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void messageResponse(int method, String message) {
-        if (method == Request.Method.PUT)
+        if (method == Request.Method.PUT) {
+            reloadActivity();
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
