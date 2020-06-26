@@ -16,7 +16,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.zukron.sman1bungo.R;
@@ -134,7 +136,7 @@ public class DetailAdminActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_tanggal_lahir_admin_detail:
                 DatePickerFragment datePickerFragment = new DatePickerFragment();
                 datePickerFragment.show(getSupportFragmentManager(), "date picker");
@@ -142,7 +144,6 @@ public class DetailAdminActivity extends AppCompatActivity implements View.OnCli
             case R.id.btn_save_admin_detail:
                 if (validateInput()) {
                     sendDataAdmin(action);
-                    moveToAdminActivity();
                 }
                 break;
         }
@@ -242,8 +243,10 @@ public class DetailAdminActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void messageResponse(int method, String message) {
-        if (method == Request.Method.PUT || method == Request.Method.POST)
+        if (method == Request.Method.PUT || method == Request.Method.POST) {
+            moveToAdminActivity();
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

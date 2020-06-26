@@ -138,7 +138,6 @@ public class DetailSiswaActivity extends AppCompatActivity implements View.OnCli
             case R.id.btn_save_siswa_detail:
                 if (validateInput()) {
                     sendDataSiswa(action);
-                    moveToSiswaActivity();
                 }
                 break;
         }
@@ -238,8 +237,10 @@ public class DetailSiswaActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void messageResponse(int method, String message) {
-        if (method == Request.Method.PUT || method == Request.Method.POST)
+        if (method == Request.Method.PUT || method == Request.Method.POST) {
+            moveToSiswaActivity();
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

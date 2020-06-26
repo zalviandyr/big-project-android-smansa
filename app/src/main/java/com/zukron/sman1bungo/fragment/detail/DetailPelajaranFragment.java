@@ -115,7 +115,6 @@ public class DetailPelajaranFragment extends DialogFragment implements View.OnCl
     public void onClick(View v) {
         if (validateInput()) {
             sendData(action);
-            moveToPelajaranActivity();
         }
     }
 
@@ -179,8 +178,10 @@ public class DetailPelajaranFragment extends DialogFragment implements View.OnCl
 
     @Override
     public void messageResponse(int method, String message) {
-        if (method == Request.Method.PUT || method == Request.Method.POST)
+        if (method == Request.Method.PUT || method == Request.Method.POST) {
+            moveToPelajaranActivity();
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

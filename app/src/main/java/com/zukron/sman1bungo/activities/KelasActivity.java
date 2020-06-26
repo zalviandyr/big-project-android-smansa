@@ -107,15 +107,6 @@ public class KelasActivity extends AppCompatActivity implements View.OnClickList
              */
             private void deleteData(Kelas kelas) {
                 kelasDao.delete(kelas.getIdKelas());
-                reloadActivity();
-            }
-
-            /***
-             * reload activity jika data berhasil di delete
-             */
-            private void reloadActivity() {
-                finish();
-                startActivity(getIntent());
             }
         });
         builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
@@ -125,6 +116,14 @@ public class KelasActivity extends AppCompatActivity implements View.OnClickList
             }
         });
         builder.show();
+    }
+
+    /***
+     * reload activity jika data berhasil di delete
+     */
+    private void reloadActivity() {
+        finish();
+        startActivity(getIntent());
     }
 
     @Override
@@ -151,8 +150,10 @@ public class KelasActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void messageResponse(int method, String message) {
-        if (method == Request.Method.DELETE)
+        if (method == Request.Method.DELETE) {
+            reloadActivity();
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

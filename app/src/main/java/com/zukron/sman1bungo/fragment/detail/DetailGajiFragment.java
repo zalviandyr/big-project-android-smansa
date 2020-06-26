@@ -116,7 +116,6 @@ public class DetailGajiFragment extends DialogFragment implements View.OnClickLi
     public void onClick(View v) {
         if (validateInput()) {
             sendData(action);
-            moveToGajiActivity();
         }
     }
 
@@ -180,8 +179,10 @@ public class DetailGajiFragment extends DialogFragment implements View.OnClickLi
 
     @Override
     public void messageResponse(int method, String message) {
-        if (method == Request.Method.PUT || method == Request.Method.POST)
+        if (method == Request.Method.PUT || method == Request.Method.POST) {
+            moveToGajiActivity();
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

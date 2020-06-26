@@ -194,7 +194,6 @@ public class DetailGuruActivity extends AppCompatActivity implements View.OnClic
             case R.id.btn_save_guru_detail:
                 if (validateInput()) {
                     sendDataGuru(action);
-                    moveToGuruActivity();
                 }
                 break;
         }
@@ -299,8 +298,10 @@ public class DetailGuruActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void messageResponse(int method, String message) {
-        if (method == Request.Method.PUT || method == Request.Method.POST)
+        if (method == Request.Method.PUT || method == Request.Method.POST) {
+            moveToGuruActivity();
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

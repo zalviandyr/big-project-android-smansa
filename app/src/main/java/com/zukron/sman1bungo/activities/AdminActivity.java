@@ -107,8 +107,10 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void messageResponse(int method, String message) {
-        if (method == Request.Method.DELETE)
+        if (method == Request.Method.DELETE) {
+            reloadActivity();
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -144,16 +146,8 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
              */
             private void deleteData(Admin admin) {
                 adminDao.delete(admin.getIdAdmin());
-                reloadActivity();
             }
 
-            /***
-             * reload activity jika data berhasil di delete
-             */
-            private void reloadActivity() {
-                finish();
-                startActivity(getIntent());
-            }
         });
         builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -162,5 +156,13 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
             }
         });
         builder.show();
+    }
+
+    /***
+     * reload activity jika data berhasil di delete
+     */
+    private void reloadActivity() {
+        finish();
+        startActivity(getIntent());
     }
 }

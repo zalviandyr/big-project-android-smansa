@@ -158,7 +158,6 @@ public class DetailPegawaiActivity extends AppCompatActivity implements View.OnC
             case R.id.btn_save_pegawai_detail:
                 if (validateInput()) {
                     sendDataPegawai(action);
-                    moveToPegawaiActivity();
                 }
                 break;
         }
@@ -259,8 +258,10 @@ public class DetailPegawaiActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void messageResponse(int method, String message) {
-        if (method == Request.Method.PUT || method == Request.Method.POST)
+        if (method == Request.Method.PUT || method == Request.Method.POST) {
+            moveToPegawaiActivity();
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

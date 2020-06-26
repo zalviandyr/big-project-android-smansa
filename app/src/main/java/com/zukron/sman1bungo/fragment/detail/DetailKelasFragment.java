@@ -162,7 +162,6 @@ public class DetailKelasFragment extends DialogFragment implements View.OnClickL
     public void onClick(View v) {
         if (validateInput()) {
             sendData(action);
-            moveToKelasActivity();
         }
     }
 
@@ -225,8 +224,10 @@ public class DetailKelasFragment extends DialogFragment implements View.OnClickL
 
     @Override
     public void messageResponse(int method, String message) {
-        if (method == Request.Method.PUT || method == Request.Method.POST)
+        if (method == Request.Method.PUT || method == Request.Method.POST) {
+            moveToKelasActivity();
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

@@ -129,15 +129,6 @@ public class GuruActivity extends AppCompatActivity implements View.OnClickListe
              */
             private void deleteData(Guru guru) {
                 guruDao.delete(guru.getNip());
-                reloadActivity();
-            }
-
-            /***
-             * reload activity jika data berhasil di delete
-             */
-            private void reloadActivity() {
-                finish();
-                startActivity(getIntent());
             }
         });
         builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
@@ -147,6 +138,14 @@ public class GuruActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         builder.show();
+    }
+
+    /***
+     * reload activity jika data berhasil di delete
+     */
+    private void reloadActivity() {
+        finish();
+        startActivity(getIntent());
     }
 
     @Override
@@ -173,8 +172,10 @@ public class GuruActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void messageResponse(int method, String message) {
-        if (method == Request.Method.DELETE)
+        if (method == Request.Method.DELETE) {
+            reloadActivity();
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

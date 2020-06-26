@@ -112,15 +112,6 @@ public class SiswaActivity extends AppCompatActivity implements View.OnClickList
              */
             private void deleteData(Siswa siswa) {
                 siswaDao.delete(siswa.getNisn());
-                reloadActivity();
-            }
-
-            /***
-             * reload activity jika data berhasil di delete
-             */
-            private void reloadActivity() {
-                finish();
-                startActivity(getIntent());
             }
         });
         builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
@@ -130,6 +121,14 @@ public class SiswaActivity extends AppCompatActivity implements View.OnClickList
             }
         });
         builder.show();
+    }
+
+    /***
+     * reload activity jika data berhasil di delete
+     */
+    private void reloadActivity() {
+        finish();
+        startActivity(getIntent());
     }
 
     @Override
@@ -156,8 +155,10 @@ public class SiswaActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void messageResponse(int method, String message) {
-        if (method == Request.Method.DELETE)
+        if (method == Request.Method.DELETE) {
+            reloadActivity();
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

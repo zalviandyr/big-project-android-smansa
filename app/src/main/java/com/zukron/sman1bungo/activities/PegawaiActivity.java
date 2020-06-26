@@ -107,15 +107,6 @@ public class PegawaiActivity extends AppCompatActivity implements View.OnClickLi
              */
             private void deleteData(Pegawai pegawai) {
                 pegawaiDao.delete(pegawai.getIdPegawai());
-                reloadActivity();
-            }
-
-            /***
-             * reload activity jika data berhasil di delete
-             */
-            private void reloadActivity() {
-                finish();
-                startActivity(getIntent());
             }
         });
         builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
@@ -125,6 +116,14 @@ public class PegawaiActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
         builder.show();
+    }
+
+    /***
+     * reload activity jika data berhasil di delete
+     */
+    private void reloadActivity() {
+        finish();
+        startActivity(getIntent());
     }
 
     @Override
@@ -154,8 +153,10 @@ public class PegawaiActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void messageResponse(int method, String message) {
-        if (method == Request.Method.DELETE)
+        if (method == Request.Method.DELETE) {
+            reloadActivity();
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
