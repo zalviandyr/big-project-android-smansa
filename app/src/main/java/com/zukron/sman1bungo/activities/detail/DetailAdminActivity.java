@@ -16,9 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.zukron.sman1bungo.R;
@@ -27,6 +25,7 @@ import com.zukron.sman1bungo.fragment.tools.DatePickerFragment;
 import com.zukron.sman1bungo.model.Gaji;
 import com.zukron.sman1bungo.model.Admin;
 import com.zukron.sman1bungo.model.dao.AdminDao;
+import com.zukron.sman1bungo.util.Tools;
 
 import org.threeten.bp.LocalDate;
 
@@ -122,7 +121,7 @@ public class DetailAdminActivity extends AppCompatActivity implements View.OnCli
         // gajiPokok
         gajiPokok = new ArrayList<>();
         for (Gaji gaji : gajiList) {
-            gajiPokok.add("Rp. " + gaji.getGajiPokok());
+            gajiPokok.add(Tools.toIdr(gaji.getGajiPokok()).toString());
         }
 
         ArrayAdapter<String> gajiAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, gajiPokok);

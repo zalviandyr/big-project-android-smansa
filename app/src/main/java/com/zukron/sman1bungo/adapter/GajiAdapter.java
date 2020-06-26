@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.zukron.sman1bungo.R;
 import com.zukron.sman1bungo.model.Gaji;
+import com.zukron.sman1bungo.util.Tools;
 
 import java.util.ArrayList;
 
@@ -60,7 +61,7 @@ public class GajiAdapter extends BaseAdapter {
         ViewHolder viewHolder = new ViewHolder(itemView);
 
         viewHolder.tvIdGajiItem.setText(gaji.getIdGaji());
-        viewHolder.tvGajiPokokItem.setText("Rp. " + gaji.getGajiPokok());
+        viewHolder.tvGajiPokokItem.setText(Tools.toIdr(gaji.getGajiPokok()).toString());
         viewHolder.btnEditGajiItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

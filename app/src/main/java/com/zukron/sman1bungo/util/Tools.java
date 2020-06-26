@@ -5,7 +5,10 @@ import com.zukron.sman1bungo.model.dao.GuruDao;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Tools {
     public static String toMd5(String str) {
@@ -76,5 +79,15 @@ public class Tools {
         provinsi.add("Papua Barat");
 
         return provinsi;
+    }
+
+    public static Object toIdr(Object value) {
+        DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getInstance();
+        decimalFormat.setGroupingUsed(true);
+        decimalFormat.setPositivePrefix("Rp. ");
+        decimalFormat.setNegativePrefix("Rp. -");
+        decimalFormat.setMaximumFractionDigits(2);
+        decimalFormat.setMinimumFractionDigits(2);
+        return decimalFormat.format(value);
     }
 }

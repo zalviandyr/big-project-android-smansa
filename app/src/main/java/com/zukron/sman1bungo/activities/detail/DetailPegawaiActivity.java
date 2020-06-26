@@ -25,6 +25,7 @@ import com.zukron.sman1bungo.fragment.tools.DatePickerFragment;
 import com.zukron.sman1bungo.model.Gaji;
 import com.zukron.sman1bungo.model.Pegawai;
 import com.zukron.sman1bungo.model.dao.PegawaiDao;
+import com.zukron.sman1bungo.util.Tools;
 
 import org.threeten.bp.LocalDate;
 
@@ -123,7 +124,7 @@ public class DetailPegawaiActivity extends AppCompatActivity implements View.OnC
         // gajiPokok
         gajiPokok = new ArrayList<>();
         for (Gaji gaji : gajiList) {
-            gajiPokok.add("Rp. " + gaji.getGajiPokok());
+            gajiPokok.add(Tools.toIdr(gaji.getGajiPokok()).toString());
         }
 
         ArrayAdapter<String> gajiAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, gajiPokok);

@@ -27,16 +27,7 @@ public class DashboardActivity extends AppCompatActivity implements BottomNaviga
 
     // TODO Clean Code
     // TODO add check connection internet
-    // TODO setting foreign key ada yang perlu casced atau yang null saja
-    // TODO add bar untuk cari nama dan refresh list
-    // TODO using formatter to format currency in gaji adapter
-    // TODO move activity anda progree dialog dismiss after dao.. finished
-
-    // TODO add this one to send twice request to server when connection is low
-    // jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
-    //                       0,
-    //                       DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-    //                       DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+    // TODO add bar untuk cari nama
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
