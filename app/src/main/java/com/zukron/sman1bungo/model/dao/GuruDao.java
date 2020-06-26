@@ -49,24 +49,28 @@ public class GuruDao {
                 isRequestFinished = true;
                 try {
                     JSONObject guruJson = new JSONObject(response);
-                    JSONObject dataJson = guruJson.getJSONObject("data");
-
-                    Guru guru = new Guru(
-                            dataJson.getString("nip"),
-                            dataJson.getString("first_name"),
-                            dataJson.getString("last_name"),
-                            dataJson.getString("email"),
-                            dataJson.getString("no_hp"),
-                            dataJson.getString("jekel"),
-                            LocalDate.parse(dataJson.getString("tanggal_lahir")),
-                            dataJson.getString("provinsi_lahir"),
-                            dataJson.getString("kota_lahir"),
-                            dataJson.getString("golongan"),
-                            dataJson.getString("id_pelajaran"),
-                            dataJson.getString("username"),
-                            dataJson.getString("id_gaji")
-                    );
                     String message = guruJson.getString("message");
+                    Guru guru = null;
+
+                    if (!guruJson.getBoolean("error")) {
+                        JSONObject dataJson = guruJson.getJSONObject("data");
+
+                        guru = new Guru(
+                                dataJson.getString("nip"),
+                                dataJson.getString("first_name"),
+                                dataJson.getString("last_name"),
+                                dataJson.getString("email"),
+                                dataJson.getString("no_hp"),
+                                dataJson.getString("jekel"),
+                                LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                                dataJson.getString("provinsi_lahir"),
+                                dataJson.getString("kota_lahir"),
+                                dataJson.getString("golongan"),
+                                dataJson.getString("id_pelajaran"),
+                                dataJson.getString("username"),
+                                dataJson.getString("id_gaji")
+                        );
+                    }
 
                     onListener.guruResponse(guru);
                     onListener.messageResponse(Request.Method.GET, message);
@@ -91,24 +95,28 @@ public class GuruDao {
                 isRequestFinished = true;
                 try {
                     JSONObject guruJson = new JSONObject(response);
-                    JSONObject dataJson = guruJson.getJSONObject("data");
-
-                    Guru guru = new Guru(
-                            dataJson.getString("nip"),
-                            dataJson.getString("first_name"),
-                            dataJson.getString("last_name"),
-                            dataJson.getString("email"),
-                            dataJson.getString("no_hp"),
-                            dataJson.getString("jekel"),
-                            LocalDate.parse(dataJson.getString("tanggal_lahir")),
-                            dataJson.getString("provinsi_lahir"),
-                            dataJson.getString("kota_lahir"),
-                            dataJson.getString("golongan"),
-                            dataJson.getString("id_pelajaran"),
-                            dataJson.getString("username"),
-                            dataJson.getString("id_gaji")
-                    );
                     String message = guruJson.getString("message");
+                    Guru guru = null;
+
+                    if (!guruJson.getBoolean("error")) {
+                        JSONObject dataJson = guruJson.getJSONObject("data");
+
+                        guru = new Guru(
+                                dataJson.getString("nip"),
+                                dataJson.getString("first_name"),
+                                dataJson.getString("last_name"),
+                                dataJson.getString("email"),
+                                dataJson.getString("no_hp"),
+                                dataJson.getString("jekel"),
+                                LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                                dataJson.getString("provinsi_lahir"),
+                                dataJson.getString("kota_lahir"),
+                                dataJson.getString("golongan"),
+                                dataJson.getString("id_pelajaran"),
+                                dataJson.getString("username"),
+                                dataJson.getString("id_gaji")
+                        );
+                    }
 
                     onListener.guruResponse(guru);
                     onListener.messageResponse(Request.Method.GET, message);
@@ -131,30 +139,34 @@ public class GuruDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                ArrayList<Guru> guruList = new ArrayList<>();
                 try {
                     JSONObject guruJson = new JSONObject(response);
-                    JSONArray dataArray = guruJson.getJSONArray("data");
-
-                    for (int i = 0; i < dataArray.length(); i++) {
-                        JSONObject dataJson = dataArray.getJSONObject(i);
-                        guruList.add(new Guru(
-                                dataJson.getString("nip"),
-                                dataJson.getString("first_name"),
-                                dataJson.getString("last_name"),
-                                dataJson.getString("email"),
-                                dataJson.getString("no_hp"),
-                                dataJson.getString("jekel"),
-                                LocalDate.parse(dataJson.getString("tanggal_lahir")),
-                                dataJson.getString("provinsi_lahir"),
-                                dataJson.getString("kota_lahir"),
-                                dataJson.getString("golongan"),
-                                dataJson.getString("id_pelajaran"),
-                                dataJson.getString("username"),
-                                dataJson.getString("id_gaji")
-                        ));
-                    }
                     String message = guruJson.getString("message");
+                    ArrayList<Guru> guruList = null;
+
+                    if (!guruJson.getBoolean("error")) {
+                        JSONArray dataArray = guruJson.getJSONArray("data");
+                        guruList = new ArrayList<>();
+
+                        for (int i = 0; i < dataArray.length(); i++) {
+                            JSONObject dataJson = dataArray.getJSONObject(i);
+                            guruList.add(new Guru(
+                                    dataJson.getString("nip"),
+                                    dataJson.getString("first_name"),
+                                    dataJson.getString("last_name"),
+                                    dataJson.getString("email"),
+                                    dataJson.getString("no_hp"),
+                                    dataJson.getString("jekel"),
+                                    LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                                    dataJson.getString("provinsi_lahir"),
+                                    dataJson.getString("kota_lahir"),
+                                    dataJson.getString("golongan"),
+                                    dataJson.getString("id_pelajaran"),
+                                    dataJson.getString("username"),
+                                    dataJson.getString("id_gaji")
+                            ));
+                        }
+                    }
 
                     onListener.guruListResponse(guruList);
                     onListener.messageResponse(Request.Method.GET, message);

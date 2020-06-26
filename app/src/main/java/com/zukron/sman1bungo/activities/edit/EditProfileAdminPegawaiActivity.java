@@ -79,7 +79,7 @@ public class EditProfileAdminPegawaiActivity extends AppCompatActivity implement
     private void retrieveData() {
         String username = userSession.getUsername();
 
-        if (userSession.getLevel().equals("Administrator")) {
+        if (userSession.getLevel().equals("Admin")) {
             inputIdAdminPegawaiEditProfile.setHint("ID Admin");
 
             adminDao.getUsername(username);
@@ -118,7 +118,7 @@ public class EditProfileAdminPegawaiActivity extends AppCompatActivity implement
             jekel = "Perempuan";
         LocalDate tanggalLahir = LocalDate.parse(btnTanggaLahirAdminPegawaiEditProfile.getText().toString().trim());
 
-        if (userSession.getLevel().equals("Administrator")) {
+        if (userSession.getLevel().equals("Admin")) {
             Admin adminData = new Admin(
                     idPegawai, firstName, lastName,
                     tanggalLahir, admin.getNoHp(), jekel,
@@ -197,7 +197,7 @@ public class EditProfileAdminPegawaiActivity extends AppCompatActivity implement
 
     @Override
     public void adminResponse(Admin admin) {
-        if (userSession.getLevel().equals("Administrator")) {
+        if (userSession.getLevel().equals("Admin")) {
             progressDialog.dismiss();
 
             this.admin = admin;

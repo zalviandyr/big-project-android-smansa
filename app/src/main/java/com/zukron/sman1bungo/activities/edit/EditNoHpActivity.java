@@ -58,7 +58,7 @@ public class EditNoHpActivity extends AppCompatActivity implements View.OnClickL
         String username = userSession.getUsername();
         if (userSession.getLevel().equals("Pegawai"))
             pegawaiDao.getUsername(username);
-        if (userSession.getLevel().equals("Administrator"))
+        if (userSession.getLevel().equals("Admin"))
             adminDao.getUsername(username);
     }
 
@@ -100,7 +100,7 @@ public class EditNoHpActivity extends AppCompatActivity implements View.OnClickL
             pegawaiDao.putFull(pegawaiData);
         }
 
-        if (userSession.getLevel().equals("Administrator")) {
+        if (userSession.getLevel().equals("Admin")) {
             Admin adminData = new Admin(
                     admin.getIdAdmin(), admin.getFirstName(), admin.getLastName(),
                     admin.getTanggalLahir(), noHp, admin.getJekel(),
@@ -130,7 +130,7 @@ public class EditNoHpActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void adminResponse(Admin admin) {
-        if (userSession.getLevel().equals("Administrator")) {
+        if (userSession.getLevel().equals("Admin")) {
             progressDialog.dismiss();
             this.admin = admin;
 

@@ -49,19 +49,23 @@ public class AdminDao {
                 isRequestFinished = true;
                 try {
                     JSONObject adminJson = new JSONObject(response);
-                    JSONObject dataJson = adminJson.getJSONObject("data");
-
-                    Admin admin = new Admin(
-                            dataJson.getString("id_admin"),
-                            dataJson.getString("first_name"),
-                            dataJson.getString("last_name"),
-                            LocalDate.parse(dataJson.getString("tanggal_lahir")),
-                            dataJson.getString("no_hp"),
-                            dataJson.getString("jekel"),
-                            dataJson.getString("id_gaji"),
-                            dataJson.getString("username")
-                    );
                     String message = adminJson.getString("message");
+                    Admin admin = null;
+
+                    if (!adminJson.getBoolean("error")) {
+                        JSONObject dataJson = adminJson.getJSONObject("data");
+
+                        admin = new Admin(
+                                dataJson.getString("id_admin"),
+                                dataJson.getString("first_name"),
+                                dataJson.getString("last_name"),
+                                LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                                dataJson.getString("no_hp"),
+                                dataJson.getString("jekel"),
+                                dataJson.getString("id_gaji"),
+                                dataJson.getString("username")
+                        );
+                    }
 
                     onListener.adminResponse(admin);
                     onListener.messageResponse(Request.Method.GET, message);
@@ -86,19 +90,23 @@ public class AdminDao {
                 isRequestFinished = true;
                 try {
                     JSONObject adminJson = new JSONObject(response);
-                    JSONObject dataJson = adminJson.getJSONObject("data");
-
-                    Admin admin = new Admin(
-                            dataJson.getString("id_admin"),
-                            dataJson.getString("first_name"),
-                            dataJson.getString("last_name"),
-                            LocalDate.parse(dataJson.getString("tanggal_lahir")),
-                            dataJson.getString("no_hp"),
-                            dataJson.getString("jekel"),
-                            dataJson.getString("id_gaji"),
-                            dataJson.getString("username")
-                    );
                     String message = adminJson.getString("message");
+                    Admin admin = null;
+
+                    if (!adminJson.getBoolean("error")) {
+                        JSONObject dataJson = adminJson.getJSONObject("data");
+
+                        admin = new Admin(
+                                dataJson.getString("id_admin"),
+                                dataJson.getString("first_name"),
+                                dataJson.getString("last_name"),
+                                LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                                dataJson.getString("no_hp"),
+                                dataJson.getString("jekel"),
+                                dataJson.getString("id_gaji"),
+                                dataJson.getString("username")
+                        );
+                    }
 
                     onListener.adminResponse(admin);
                     onListener.messageResponse(Request.Method.GET, message);
@@ -121,25 +129,29 @@ public class AdminDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                ArrayList<Admin> adminList = new ArrayList<>();
                 try {
                     JSONObject adminJson = new JSONObject(response);
-                    JSONArray dataArray = adminJson.getJSONArray("data");
-
-                    for (int i = 0; i < dataArray.length(); i++) {
-                        JSONObject dataJson = dataArray.getJSONObject(i);
-                        adminList.add(new Admin(
-                                dataJson.getString("id_admin"),
-                                dataJson.getString("first_name"),
-                                dataJson.getString("last_name"),
-                                LocalDate.parse(dataJson.getString("tanggal_lahir")),
-                                dataJson.getString("no_hp"),
-                                dataJson.getString("jekel"),
-                                dataJson.getString("id_gaji"),
-                                dataJson.getString("username")
-                        ));
-                    }
                     String message = adminJson.getString("message");
+                    ArrayList<Admin> adminList = null;
+
+                    if (!adminJson.getBoolean("error")) {
+                        JSONArray dataArray = adminJson.getJSONArray("data");
+                        adminList = new ArrayList<>();
+
+                        for (int i = 0; i < dataArray.length(); i++) {
+                            JSONObject dataJson = dataArray.getJSONObject(i);
+                            adminList.add(new Admin(
+                                    dataJson.getString("id_admin"),
+                                    dataJson.getString("first_name"),
+                                    dataJson.getString("last_name"),
+                                    LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                                    dataJson.getString("no_hp"),
+                                    dataJson.getString("jekel"),
+                                    dataJson.getString("id_gaji"),
+                                    dataJson.getString("username")
+                            ));
+                        }
+                    }
 
                     onListener.adminListResponse(adminList);
                     onListener.messageResponse(Request.Method.GET, message);

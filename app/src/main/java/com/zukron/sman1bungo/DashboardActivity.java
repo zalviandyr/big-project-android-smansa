@@ -29,6 +29,7 @@ public class DashboardActivity extends AppCompatActivity implements BottomNaviga
     // TODO add check connection internet
     // TODO setting foreign key ada yang perlu casced atau yang null saja
     // TODO add bar untuk cari nama dan refresh list
+    // TODO using formatter to format currency in gaji adapter
 
     // TODO add this one to send twice request to server when connection is low
     // jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
@@ -52,7 +53,7 @@ public class DashboardActivity extends AppCompatActivity implements BottomNaviga
         // separate part of user access
         String level = userSession.getLevel();
 
-        if (level.equals("Administrator")) {
+        if (level.equals("Admin")) {
             AdminHomeFragment adminHomeFragment = new AdminHomeFragment();
             fragmentTransaction.add(R.id.fl_main_container, adminHomeFragment, AdminHomeFragment.class.getSimpleName()).commit();
         }
@@ -91,7 +92,7 @@ public class DashboardActivity extends AppCompatActivity implements BottomNaviga
         switch (item.getItemId()) {
             case R.id.home_item:
                 String level = userSession.getLevel();
-                if (level.equals("Administrator")) {
+                if (level.equals("Admin")) {
                     AdminHomeFragment adminHomeFragment = new AdminHomeFragment();
                     fragmentTransaction.replace(R.id.fl_main_container, adminHomeFragment, AdminHomeFragment.class.getSimpleName()).commit();
                 }

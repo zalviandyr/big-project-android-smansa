@@ -50,16 +50,23 @@ public class LoginRegisterDao {
                 isRequestFinished = true;
                 try {
                     JSONObject userJson = new JSONObject(response);
-                    User user = new User(
-                            userJson.getString("username"),
-                            userJson.getString("password"),
-                            userJson.getString("level"),
-                            LocalDate.parse(userJson.getString("last_login")),
-                            LocalDate.parse(userJson.getString("created"))
-                    );
+                    boolean error = userJson.getBoolean("error");
+                    String message = userJson.getString("message");
+                    User user = null;
+
+                    if (!userJson.getBoolean("error")) {
+                        JSONObject dataJson = userJson.getJSONObject("data");
+                         user = new User(
+                                dataJson.getString("username"),
+                                dataJson.getString("password"),
+                                dataJson.getString("level"),
+                                LocalDate.parse(dataJson.getString("last_login")),
+                                LocalDate.parse(dataJson.getString("created"))
+                        );
+                    }
 
                     onListener.userResponse(user);
-                    onListener.defaultResponse(response);
+                    onListener.messageResponse(error, Request.Method.GET, message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -79,7 +86,15 @@ public class LoginRegisterDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject userJson = new JSONObject(response);
+                    boolean error = userJson.getBoolean("error");
+                    String message = userJson.getString("message");
+
+                    onListener.messageResponse(error, Request.Method.POST, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -93,7 +108,7 @@ public class LoginRegisterDao {
 
                 params.put("username", username);
                 params.put("password", password);
-                params.put("level", "Administrator");
+                params.put("level", "Admin");
                 params.put("id_admin", idAdmin);
 
                 return params;
@@ -108,7 +123,15 @@ public class LoginRegisterDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject userJson = new JSONObject(response);
+                    boolean error = userJson.getBoolean("error");
+                    String message = userJson.getString("message");
+
+                    onListener.messageResponse(error, Request.Method.POST, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -137,7 +160,15 @@ public class LoginRegisterDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject userJson = new JSONObject(response);
+                    boolean error = userJson.getBoolean("error");
+                    String message = userJson.getString("message");
+
+                    onListener.messageResponse(error, Request.Method.POST, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -166,7 +197,15 @@ public class LoginRegisterDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                onListener.defaultResponse(response);
+                try {
+                    JSONObject userJson = new JSONObject(response);
+                    boolean error = userJson.getBoolean("error");
+                    String message = userJson.getString("message");
+
+                    onListener.messageResponse(error, Request.Method.POST, message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -196,7 +235,7 @@ public class LoginRegisterDao {
          */
         void userResponse(User user);
 
-        void defaultResponse(String response);
+        void messageResponse(boolean error, int method, String message);
 
         void errorResponse(VolleyError error);
     }

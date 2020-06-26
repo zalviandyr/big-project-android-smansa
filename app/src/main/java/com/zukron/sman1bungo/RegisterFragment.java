@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -33,17 +34,13 @@ import com.zukron.sman1bungo.util.Tools;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
-public class RegisterFragment extends Fragment implements View.OnClickListener, LoginRegisterDao.onListener, AdminDao.onListener, GuruDao.onListener, PegawaiDao.onListener, SiswaDao.onListener {
+public class RegisterFragment extends Fragment implements View.OnClickListener, LoginRegisterDao.onListener {
     private TextInputLayout inputLayoutIdRegister, inputLayoutUsernameRegister, inputLayoutPasswordRegister;
     private TextInputEditText inputIdRegister, inputUsernameRegister, inputPasswordRegister;
     private Button btnRegister;
     private String status;
     private ProgressDialog progressDialog;
     private LoginRegisterDao loginRegisterDao;
-    private AdminDao adminDao;
-    private GuruDao guruDao;
-    private PegawaiDao pegawaiDao;
-    private SiswaDao siswaDao;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -61,10 +58,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         super.onViewCreated(view, savedInstanceState);
 
         loginRegisterDao = new LoginRegisterDao(getContext(), this);
-        adminDao = new AdminDao(getContext(), this);
-        guruDao = new GuruDao(getContext(), this);
-        pegawaiDao = new PegawaiDao(getContext(), this);
-        siswaDao = new SiswaDao(getContext(), this);
 
         assert getArguments() != null;
         status = getArguments().getString("status");
@@ -132,29 +125,21 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void registerAction() {
-        if (status.equals("Admin")) {
-            String idAdmin = inputIdRegister.getText().toString().trim();
+        String id = inputIdRegister.getText().toString().trim();
+        String username = inputUsernameRegister.getText().toString().trim();
+        String password = Tools.toMd5(inputPasswordRegister.getText().toString().trim());
 
-            adminDao.getId(idAdmin);
-        }
+        if (status.equals("Admin"))
+            loginRegisterDao.postAdmin(username, password, id);
 
-        if (status.equals("Guru")) {
-            String nip = inputIdRegister.getText().toString().trim();
+        if (status.equals("Guru"))
+            loginRegisterDao.postGuru(username, password, id);
 
-            guruDao.getNip(nip);
-        }
+        if (status.equals("Pegawai"))
+            loginRegisterDao.postPegawai(username, password, id);
 
-        if (status.equals("Pegawai")) {
-            String idPegawai = inputIdRegister.getText().toString().trim();
-
-            pegawaiDao.getId(idPegawai);
-        }
-
-        if (status.equals("Siswa")) {
-            String nisn = inputIdRegister.getText().toString().trim();
-
-            siswaDao.getNisn(nisn);
-        }
+        if (status.equals("Siswa"))
+            loginRegisterDao.postSiswa(username, password, id);
     }
 
     private void moveToLoginActivity() {
@@ -167,151 +152,24 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     }
 
     @Override
-    public void defaultResponse(String response) {
+    public void messageResponse(boolean error, int method, String message) {
+        progressDialog.dismiss();
 
-    }
-
-    @Override
-    public void guruResponse(Guru guru) {
-        String username = inputUsernameRegister.getText().toString().trim();
-        String password = Tools.toMd5(inputPasswordRegister.getText().toString().trim());
-        String nip = guru.getNip();
-
-        loginRegisterDao.postGuru(username, password, nip);
-    }
-
-    @Override
-    public void guruListResponse(ArrayList<Guru> guruList) {
-        // no need
-    }
-
-    @Override
-    public void pegawaiResponse(Pegawai pegawai) {
-        String username = inputUsernameRegister.getText().toString().trim();
-        String password = Tools.toMd5(inputPasswordRegister.getText().toString().trim());
-        String idPegawai = pegawai.getIdPegawai();
-
-        loginRegisterDao.postPegawai(username, password, idPegawai);
-    }
-
-    @Override
-    public void pegawaiListResponse(ArrayList<Pegawai> pegawaiList) {
-        // no need
-    }
-
-    @Override
-    public void siswaResponse(Siswa siswa) {
-        String username = inputUsernameRegister.getText().toString().trim();
-        String password = Tools.toMd5(inputPasswordRegister.getText().toString().trim());
-        String nisn = siswa.getNisn();
-
-        loginRegisterDao.postSiswa(username, password, nisn);
-    }
-
-    @Override
-    public void siswaListResponse(ArrayList<Siswa> siswaList) {
-        // no need
-    }
-
-    @Override
-    public void adminResponse(Admin admin) {
-        String username = inputUsernameRegister.getText().toString().trim();
-        String password = Tools.toMd5(inputPasswordRegister.getText().toString().trim());
-        String idAdmin = admin.getIdAdmin();
-
-        loginRegisterDao.postAdmin(username, password, idAdmin);
-    }
-
-    @Override
-    public void adminListResponse(ArrayList<Admin> adminList) {
-        // no need
-    }
-
-    @Override
-    public void messageResponse(int method, String message) {
-        if (message.equals("Berhasil Register")) {
-            progressDialog.dismiss();
+        if (error) {
+            String errorMsg = "Gagal Registrasi";
+            inputLayoutIdRegister.setError(errorMsg);
+            inputLayoutUsernameRegister.setError(errorMsg);
+            inputLayoutPasswordRegister.setError(errorMsg);
+        } else {
             moveToLoginActivity();
-            Toast.makeText(getContext(), "Berhasil Register", Toast.LENGTH_SHORT).show();
         }
+
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void errorResponse(VolleyError error) {
         progressDialog.dismiss();
-
-        if (status.equals("Admin")) {
-            if (error.networkResponse.statusCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                inputLayoutIdRegister.setError("ID tidak ada");
-                Toast.makeText(getContext(), "ID tidak ada", Toast.LENGTH_SHORT).show();
-            }
-
-            // jika id sudah terdaftar
-            if (error.networkResponse.statusCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                inputLayoutIdRegister.setError("ID telah terdaftar");
-                Toast.makeText(getContext(), "ID tersebut telah terdaftar", Toast.LENGTH_SHORT).show();
-            }
-
-            // jika terjadi duplikasi username
-            if (error.networkResponse.statusCode == HttpURLConnection.HTTP_BAD_REQUEST) {
-                inputLayoutUsernameRegister.setError("Username telah terdaftar");
-                Toast.makeText(getContext(), "Username tersebut telah terdaftar", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        if (status.equals("Guru")) {
-            if (error.networkResponse.statusCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                inputLayoutIdRegister.setError("NIP tidak ada");
-                Toast.makeText(getContext(), "NIP tidak ada", Toast.LENGTH_SHORT).show();
-            }
-
-            // jika id sudah terdaftar
-            if (error.networkResponse.statusCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                inputLayoutIdRegister.setError("NIP telah terdaftar");
-                Toast.makeText(getContext(), "NIP tersebut telah terdaftar", Toast.LENGTH_SHORT).show();
-            }
-
-            // jika terjadi duplikasi username
-            if (error.networkResponse.statusCode == HttpURLConnection.HTTP_BAD_REQUEST) {
-                inputLayoutUsernameRegister.setError("Username telah terdaftar");
-                Toast.makeText(getContext(), "Username tersebut telah terdaftar", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        if (status.equals("Pegawai")) {
-            if (error.networkResponse.statusCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                inputLayoutIdRegister.setError("ID tidak ada");
-                Toast.makeText(getContext(), "ID tidak ada", Toast.LENGTH_SHORT).show();
-            }
-
-            if (error.networkResponse.statusCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                inputLayoutIdRegister.setError("ID telah terdaftar");
-                Toast.makeText(getContext(), "ID tersebut telah terdaftar", Toast.LENGTH_SHORT).show();
-            }
-
-            // jika terjadi duplikasi username
-            if (error.networkResponse.statusCode == HttpURLConnection.HTTP_BAD_REQUEST) {
-                inputLayoutUsernameRegister.setError("Username telah terdaftar");
-                Toast.makeText(getContext(), "Username tersebut telah terdaftar", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        if (status.equals("Siswa")) {
-            if (error.networkResponse.statusCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                inputLayoutIdRegister.setError("NISN tidak ada");
-                Toast.makeText(getContext(), "NISN tidak ada", Toast.LENGTH_SHORT).show();
-            }
-
-            if (error.networkResponse.statusCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                inputLayoutIdRegister.setError("NISN telah terdaftar");
-                Toast.makeText(getContext(), "NISN tersebut telah terdaftar", Toast.LENGTH_SHORT).show();
-            }
-
-            // jika terjadi duplikasi username
-            if (error.networkResponse.statusCode == HttpURLConnection.HTTP_BAD_REQUEST) {
-                inputLayoutUsernameRegister.setError("Username telah terdaftar");
-                Toast.makeText(getContext(), "Username tersebut telah terdaftar", Toast.LENGTH_SHORT).show();
-            }
-        }
+        error.printStackTrace();
     }
 }

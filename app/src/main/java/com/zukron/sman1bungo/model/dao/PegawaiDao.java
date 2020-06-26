@@ -49,20 +49,24 @@ public class PegawaiDao {
                 isRequestFinished = true;
                 try {
                     JSONObject pegawaiJson = new JSONObject(response);
-                    JSONObject dataJson = pegawaiJson.getJSONObject("data");
-
-                    Pegawai pegawai = new Pegawai(
-                            dataJson.getString("id_pegawai"),
-                            dataJson.getString("first_name"),
-                            dataJson.getString("last_name"),
-                            LocalDate.parse(dataJson.getString("tanggal_lahir")),
-                            dataJson.getString("no_hp"),
-                            dataJson.getString("jekel"),
-                            dataJson.getString("jabatan"),
-                            dataJson.getString("id_gaji"),
-                            dataJson.getString("username")
-                    );
                     String message = pegawaiJson.getString("message");
+                    Pegawai pegawai = null;
+
+                    if (!pegawaiJson.getBoolean("error")) {
+                        JSONObject dataJson = pegawaiJson.getJSONObject("data");
+
+                        pegawai = new Pegawai(
+                                dataJson.getString("id_pegawai"),
+                                dataJson.getString("first_name"),
+                                dataJson.getString("last_name"),
+                                LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                                dataJson.getString("no_hp"),
+                                dataJson.getString("jekel"),
+                                dataJson.getString("jabatan"),
+                                dataJson.getString("id_gaji"),
+                                dataJson.getString("username")
+                        );
+                    }
 
                     onListener.pegawaiResponse(pegawai);
                     onListener.messageResponse(Request.Method.GET, message);
@@ -87,21 +91,24 @@ public class PegawaiDao {
                 isRequestFinished = true;
                 try {
                     JSONObject pegawaiJson = new JSONObject(response);
-                    JSONObject dataJson = pegawaiJson.getJSONObject("data");
-
-                    Pegawai pegawai = new Pegawai(
-                            dataJson.getString("id_pegawai"),
-                            dataJson.getString("first_name"),
-                            dataJson.getString("last_name"),
-                            LocalDate.parse(dataJson.getString("tanggal_lahir")),
-                            dataJson.getString("no_hp"),
-                            dataJson.getString("jekel"),
-                            dataJson.getString("jabatan"),
-                            dataJson.getString("id_gaji"),
-                            dataJson.getString("username")
-                    );
                     String message = pegawaiJson.getString("message");
+                    Pegawai pegawai = null;
 
+                    if (!pegawaiJson.getBoolean("error")) {
+                        JSONObject dataJson = pegawaiJson.getJSONObject("data");
+
+                        pegawai = new Pegawai(
+                                dataJson.getString("id_pegawai"),
+                                dataJson.getString("first_name"),
+                                dataJson.getString("last_name"),
+                                LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                                dataJson.getString("no_hp"),
+                                dataJson.getString("jekel"),
+                                dataJson.getString("jabatan"),
+                                dataJson.getString("id_gaji"),
+                                dataJson.getString("username")
+                        );
+                    }
                     onListener.pegawaiResponse(pegawai);
                     onListener.messageResponse(Request.Method.GET, message);
                 } catch (JSONException e) {
@@ -123,26 +130,30 @@ public class PegawaiDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                ArrayList<Pegawai> pegawaiList = new ArrayList<>();
                 try {
                     JSONObject pegawaiJson = new JSONObject(response);
-                    JSONArray dataArray = pegawaiJson.getJSONArray("data");
-
-                    for (int i = 0; i < dataArray.length(); i++) {
-                        JSONObject dataJson = dataArray.getJSONObject(i);
-                        pegawaiList.add(new Pegawai(
-                                dataJson.getString("id_pegawai"),
-                                dataJson.getString("first_name"),
-                                dataJson.getString("last_name"),
-                                LocalDate.parse(dataJson.getString("tanggal_lahir")),
-                                dataJson.getString("no_hp"),
-                                dataJson.getString("jekel"),
-                                dataJson.getString("jabatan"),
-                                dataJson.getString("id_gaji"),
-                                dataJson.getString("username")
-                        ));
-                    }
                     String message = pegawaiJson.getString("message");
+                    ArrayList<Pegawai> pegawaiList = null;
+
+                    if (!pegawaiJson.getBoolean("error")) {
+                        JSONArray dataArray = pegawaiJson.getJSONArray("data");
+                        pegawaiList = new ArrayList<>();
+                        
+                        for (int i = 0; i < dataArray.length(); i++) {
+                            JSONObject dataJson = dataArray.getJSONObject(i);
+                            pegawaiList.add(new Pegawai(
+                                    dataJson.getString("id_pegawai"),
+                                    dataJson.getString("first_name"),
+                                    dataJson.getString("last_name"),
+                                    LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                                    dataJson.getString("no_hp"),
+                                    dataJson.getString("jekel"),
+                                    dataJson.getString("jabatan"),
+                                    dataJson.getString("id_gaji"),
+                                    dataJson.getString("username")
+                            ));
+                        }
+                    }
 
                     onListener.pegawaiListResponse(pegawaiList);
                     onListener.messageResponse(Request.Method.GET, message);

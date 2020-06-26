@@ -42,29 +42,33 @@ public class SiswaDao {
         return this.isRequestFinished;
     }
 
-    public void getNisn(String nisn) {
+    public void getNisn(final String nisn) {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, SiswaEndpoint.getNisn(nisn), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
                 try {
                     JSONObject siswaJson = new JSONObject(response);
-                    JSONObject dataJson = siswaJson.getJSONObject("data");
-
-                    Siswa siswa = new Siswa(
-                            dataJson.getString("nisn"),
-                            dataJson.getString("first_name"),
-                            dataJson.getString("last_name"),
-                            dataJson.getString("jekel"),
-                            dataJson.getString("email"),
-                            dataJson.getString("no_hp"),
-                            LocalDate.parse(dataJson.getString("tanggal_lahir")),
-                            dataJson.getString("kota_lahir"),
-                            dataJson.getString("provinsi_lahir"),
-                            dataJson.getString("id_kelas"),
-                            dataJson.getString("username")
-                    );
                     String message = siswaJson.getString("message");
+                    Siswa siswa = null;
+
+                    if (!siswaJson.getBoolean("error")) {
+                        JSONObject dataJson = siswaJson.getJSONObject("data");
+
+                        siswa = new Siswa(
+                                dataJson.getString("nisn"),
+                                dataJson.getString("first_name"),
+                                dataJson.getString("last_name"),
+                                dataJson.getString("jekel"),
+                                dataJson.getString("email"),
+                                dataJson.getString("no_hp"),
+                                LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                                dataJson.getString("kota_lahir"),
+                                dataJson.getString("provinsi_lahir"),
+                                dataJson.getString("id_kelas"),
+                                dataJson.getString("username")
+                        );
+                    }
 
                     onListener.siswaResponse(siswa);
                     onListener.messageResponse(Request.Method.GET, message);
@@ -89,22 +93,26 @@ public class SiswaDao {
                 isRequestFinished = true;
                 try {
                     JSONObject siswaJson = new JSONObject(response);
-                    JSONObject dataJson = siswaJson.getJSONObject("data");
-
-                    Siswa siswa = new Siswa(
-                            dataJson.getString("nisn"),
-                            dataJson.getString("first_name"),
-                            dataJson.getString("last_name"),
-                            dataJson.getString("jekel"),
-                            dataJson.getString("email"),
-                            dataJson.getString("no_hp"),
-                            LocalDate.parse(dataJson.getString("tanggal_lahir")),
-                            dataJson.getString("kota_lahir"),
-                            dataJson.getString("provinsi_lahir"),
-                            dataJson.getString("id_kelas"),
-                            dataJson.getString("username")
-                    );
                     String message = siswaJson.getString("message");
+                    Siswa siswa = null;
+
+                    if (!siswaJson.getBoolean("error")) {
+                        JSONObject dataJson = siswaJson.getJSONObject("data");
+
+                        siswa = new Siswa(
+                                dataJson.getString("nisn"),
+                                dataJson.getString("first_name"),
+                                dataJson.getString("last_name"),
+                                dataJson.getString("jekel"),
+                                dataJson.getString("email"),
+                                dataJson.getString("no_hp"),
+                                LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                                dataJson.getString("kota_lahir"),
+                                dataJson.getString("provinsi_lahir"),
+                                dataJson.getString("id_kelas"),
+                                dataJson.getString("username")
+                        );
+                    }
 
                     onListener.siswaResponse(siswa);
                     onListener.messageResponse(Request.Method.GET, message);
@@ -127,28 +135,32 @@ public class SiswaDao {
             @Override
             public void onResponse(String response) {
                 isRequestFinished = true;
-                ArrayList<Siswa> siswaList = new ArrayList<>();
                 try {
                     JSONObject siswaJson = new JSONObject(response);
-                    JSONArray dataArray = siswaJson.getJSONArray("data");
-
-                    for (int i = 0; i < dataArray.length(); i++) {
-                        JSONObject dataJson = dataArray.getJSONObject(i);
-                        siswaList.add(new Siswa(
-                                dataJson.getString("nisn"),
-                                dataJson.getString("first_name"),
-                                dataJson.getString("last_name"),
-                                dataJson.getString("jekel"),
-                                dataJson.getString("email"),
-                                dataJson.getString("no_hp"),
-                                LocalDate.parse(dataJson.getString("tanggal_lahir")),
-                                dataJson.getString("kota_lahir"),
-                                dataJson.getString("provinsi_lahir"),
-                                dataJson.getString("id_kelas"),
-                                dataJson.getString("username")
-                        ));
-                    }
                     String message = siswaJson.getString("message");
+                    ArrayList<Siswa> siswaList = null;
+
+                    if (!siswaJson.getBoolean("error")) {
+                        JSONArray dataArray = siswaJson.getJSONArray("data");
+                        siswaList = new ArrayList<>();
+
+                        for (int i = 0; i < dataArray.length(); i++) {
+                            JSONObject dataJson = dataArray.getJSONObject(i);
+                            siswaList.add(new Siswa(
+                                    dataJson.getString("nisn"),
+                                    dataJson.getString("first_name"),
+                                    dataJson.getString("last_name"),
+                                    dataJson.getString("jekel"),
+                                    dataJson.getString("email"),
+                                    dataJson.getString("no_hp"),
+                                    LocalDate.parse(dataJson.getString("tanggal_lahir")),
+                                    dataJson.getString("kota_lahir"),
+                                    dataJson.getString("provinsi_lahir"),
+                                    dataJson.getString("id_kelas"),
+                                    dataJson.getString("username")
+                            ));
+                        }
+                    }
 
                     onListener.siswaListResponse(siswaList);
                     onListener.messageResponse(Request.Method.GET, message);

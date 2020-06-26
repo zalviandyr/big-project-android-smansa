@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -95,28 +96,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void userResponse(User user) {
-        // set session
-        Session.setSession(user);
-
-        // pastikan session tidak null
-        if (Session.getSession() != null) {
+        if (user != null) {
             progressDialog.dismiss();
-            moveToDashboardActivity();
+
+            // set session
+            Session.setSession(user);
+
+            // pastikan session tidak null
+            if (Session.getSession() != null) {
+                moveToDashboardActivity();
+            }
         }
     }
 
     @Override
-    public void defaultResponse(String response) {
-        // no need
+    public void messageResponse(boolean error, int method, String message) {
+        progressDialog.dismiss();
+
+        // jika ada error
+        if (method == Request.Method.GET)
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+
+        if (error) {
+            inputLayoutUsernameLogin.setError("Masukkan username yang valid");
+            inputLayoutPasswordLogin.setError("Masukkan password yang valid");
+        }
     }
 
     @Override
     public void errorResponse(VolleyError error) {
         progressDialog.dismiss();
-        if (error.networkResponse.statusCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-            inputLayoutUsernameLogin.setError("Masukkan username yang valid");
-            inputLayoutPasswordLogin.setError("Masukkan password yang valid");
-            Toast.makeText(LoginActivity.this, "Gagal Login", Toast.LENGTH_SHORT).show();
-        }
     }
 }

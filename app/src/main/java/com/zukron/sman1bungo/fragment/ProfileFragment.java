@@ -94,7 +94,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
             btnLogOutProfile.setOnClickListener(this);
         }
 
-        if (userSession.getLevel().equals("Pegawai") || userSession.getLevel().equals("Administrator")) {
+        if (userSession.getLevel().equals("Pegawai") || userSession.getLevel().equals("Admin")) {
             viewButton = layoutInflater.inflate(R.layout.button_menu_profile2, null);
 
             btnEditProfile = viewButton.findViewById(R.id.btn_edit_profile);
@@ -132,7 +132,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
             siswaDao.getUsername(userSession.getUsername());
         }
 
-        if (userSession.getLevel().equals("Administrator")) {
+        if (userSession.getLevel().equals("Admin")) {
             adminDao.getUsername(userSession.getUsername());
         }
     }
@@ -146,7 +146,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
                     startActivity(intent);
                 }
 
-                if (userSession.getLevel().equals("Pegawai") || userSession.getLevel().equals("Administrator")) {
+                if (userSession.getLevel().equals("Pegawai") || userSession.getLevel().equals("Admin")) {
                     Intent intent = new Intent(getContext(), EditProfileAdminPegawaiActivity.class);
                     startActivity(intent);
                 }
@@ -160,7 +160,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
                 break;
 
             case R.id.btn_edit_no_hp_profile:
-                if (userSession.getLevel().equals("Pegawai") || userSession.getLevel().equals("Administrator")) {
+                if (userSession.getLevel().equals("Pegawai") || userSession.getLevel().equals("Admin")) {
                     Intent intent = new Intent(getContext(), EditNoHpActivity.class);
                     startActivity(intent);
                 }
@@ -248,7 +248,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
     @Override
     public void adminResponse(Admin admin) {
         progressDialog.dismiss();
-        if (userSession.getLevel().equals("Administrator")) {
+        if (userSession.getLevel().equals("Admin")) {
             String nama = admin.getFirstName() + " " + admin.getLastName();
             String nisn = admin.getIdAdmin();
             String username = userSession.getUsername();

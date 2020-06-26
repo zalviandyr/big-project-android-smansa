@@ -142,7 +142,7 @@ public class DetailAdminActivity extends AppCompatActivity implements View.OnCli
             case R.id.btn_save_admin_detail:
                 if (validateInput()) {
                     sendDataAdmin(action);
-                    moveToAdministratorActivity();
+                    moveToAdminActivity();
                 }
                 break;
         }
@@ -180,7 +180,7 @@ public class DetailAdminActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private void moveToAdministratorActivity() {
+    private void moveToAdminActivity() {
         // membuat AdminActivity baru dengan list data yang telah diupdate
         Intent intent = new Intent(DetailAdminActivity.this, AdminActivity.class);
         // menyelesaikan DetailAdminActivty agar user tidak bisa kembali ke DetailAdminActivty menggunakan tombol back
@@ -192,7 +192,7 @@ public class DetailAdminActivity extends AppCompatActivity implements View.OnCli
     public void onBackPressed() {
         // jika user tidak menekan tombol save atau melakukan perubahan,
         // maka buat AdminActivity yang telah diselesaikan sebelumnya
-        moveToAdministratorActivity();
+        moveToAdminActivity();
     }
 
     @Override
